@@ -80,7 +80,7 @@ def set_numind(ind,species):
             ind.num_specie(species[i][1])
 
 
-def species(population, h, version):
+def species(population, h, version=3):
     """
     This is the speciation method.
     This method compare each individual with the rest

@@ -229,16 +229,16 @@ def evolve(sample_num, config):
     begin =time.time()
     print "inicio del proceso"
 
-    if neat_alg:
-        num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
-        for specie in specie_list:
-            pop_gpo=getInd_perSpecie(specie, pop)
-            pop, log = neatGPLS.neat_GP_LS(pop_gpo, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
-                                           funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
-                                           n_corr, n_prob, params, direccion, problem, stats=None, halloffame=None,
-                                           verbose=True)
-    else:
-        pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
+    # if neat_alg:
+    #     #num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
+    #     #for specie in specie_list:
+    #         #pop_gpo=getInd_perSpecie(specie, pop)
+    #     pop, log = neatGPLS.neat_GP_LS(pop_gpo, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
+    #                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
+    #                                        n_corr, n_prob, params, direccion, problem, stats=None, halloffame=None,
+    #                                        verbose=True)
+    # else:
+    pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
                                        n_corr, n_prob, params, direccion, problem, testing=config["TESTING"], version=version,
                                        stats=None, halloffame=None, verbose=True)
