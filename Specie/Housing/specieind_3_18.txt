@@ -1,0 +1,132 @@
+
+-------
+None;sub(tan(safe_div(mylog(0.9114068032682967), cos(x6))), mypower3(mul(sin(x10), mylog(x6))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(add(mypower2(x2), safe_div(x6, x7)))), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;mypower2(safe_div(tan(x6), mylog(x9)));3
+None;cos(mypower3(x10));3
+None;mysqrt(mul(add(mul(x6, tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;add(x0, x3);3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1)))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))));3
+None;cos(sub(cos(mysqrt(sub(cos(x8), add(0.7350204702996224, x4)))), sin(tan(safe_div(tan(x10), safe_div(x0, x8))))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x9, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, mysqrt(x9)), x1), x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(x9, x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;add(cos(mul(cos(mul(cos(x8), mypower3(-0.45463013470464686))), mypower3(safe_div(cos(0.4196357822181236), cos(x4))))), mypower3(safe_div(mul(tanh(sin(x10)), add(mypower2(x7), cos(x10))), tanh(mypower2(mypower3(x12))))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(x7, tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;cos(add(x0, x3));3
+None;tan(sub(tan(tan(cos(x4))), sin(add(tanh(x9), tanh(x4)))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), safe_div(x6, x7)), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;add(mul(add(x1, x7), sin(x1)), mysqrt(mul(x9, x10)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(x1)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), x9), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(x9)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, tanh(x9)))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(tanh(x9))), x1), x1), tanh(x9)), x1), add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5)))), tanh(x9)), add(add(mylog(add(mypower2(tanh(x9)), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mypower2(mylog(mysqrt(x9)))))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)));3
+None;mul(tan(x0), add(x9, x7));3
+None;mysqrt(mul(add(mul(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x5), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;sub(sub(mylog(x7), sub(x9, x11)), tan(mypower3(x12)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), mypower2(sub(-0.01096409239091578, mylog(mysqrt(x9))))), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), -0.01096409239091578), x1), mul(add(add(x11, x1), x1), tanh(x9))), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;sin(tanh(mul(mypower3(-0.854983047116173), mypower2(0.34175634688261924))));3
+None;mysqrt(mul(tan(x12), mul(x4, x8)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), -0.01096409239091578), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;x3;3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, x1)), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mypower2(sin(x9));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;mypower3(tanh(mypower2(x2)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;safe_div(mul(mul(x7, x2), sub(x12, x12)), mul(sin(x6), mypower3(x0)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, mysqrt(x9)), x1), x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), mypower2(sub(-0.01096409239091578, x5))), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(add(x11, x1))), tanh(x9)), x1), tanh(x11)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;cos(x0);3
+None;sub(x3, x5);3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1))), tanh(x9)), x1), tanh(x9)), x1), tanh(x9)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(tanh(x9), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;tan(sin(tan(mysqrt(mysqrt(x9)))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(mylog(mysqrt(x9)))), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(tanh(x9), tanh(x9))))));3
+None;sub(x8, x10);3
+None;sin(tanh(sin(mul(safe_div(x9, x1), sin(x1)))));3
+None;mysqrt(mul(add(mul(add(mul(mul(x9, tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(x9)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(x9)))), tanh(x9)), tanh(x9)), x1), tanh(x9)), mypower2(sub(-0.01096409239091578, x5))), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), add(x11, x1)), x1), tanh(x9)), x1), tanh(x9)));3
+None;mypower3(safe_div(add(x3, x10), sin(x5)));3
+None;sin(mysqrt(x6));3
+None;cos(mylog(x6));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), x1), mysqrt(x9)))), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(mul(add(add(x11, x1), x1), tanh(x9)), x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;mysqrt(mul(x5, tanh(add(x11, x1))));3
+None;safe_div(sin(x0), x6);3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;safe_div(mul(cos(cos(0.7464532463974749)), sin(mul(-0.303070921842018, 0.5228275849033754))), cos(sin(mylog(x1))));3
+None;mypower3(cos(cos(x6)));3
+None;cos(x5);3
+None;sin(x2);3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(x9, mysqrt(x9)), tanh(x9)), add(add(x1, mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x6, x1))));3
+None;tan(mypower2(sub(mylog(add(x12, x6)), mysqrt(mypower3(x8)))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x11), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(x7, x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(add(mul(add(add(x11, x1), x1), tanh(x9)), x1)))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(x9);3
+None;mysqrt(add(mylog(x6), sin(x9)));3
+None;mul(mylog(cos(x8)), tanh(mypower2(x1)));3
+None;safe_div(x11, x3);3
+None;sub(tanh(x11), tan(x1));3
+None;mysqrt(add(tanh(mypower2(safe_div(mypower3(x1), tanh(x10)))), tan(sin(sin(add(x1, x6))))));3
+None;cos(safe_div(sin(tanh(sub(tanh(x6), sin(x5)))), mypower3(add(mysqrt(sin(x4)), sin(sin(x8))))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(x9), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(x9)));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(add(add(x11, x1), safe_div(x6, x7)), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;x4;3
+None;add(sub(mul(mypower3(x0), cos(x5)), x11), cos(x10));3
+None;mypower3(safe_div(tanh(mylog(x9)), mysqrt(mypower3(x0))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, mysqrt(x9)), x1), x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), x1)), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)))), tanh(x9)), x1), tanh(x9)), x1), tanh(add(add(add(x11, x1), x1), x1))));3
+None;tan(cos(mul(safe_div(tanh(x11), mylog(x11)), cos(safe_div(x1, x3)))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(tanh(x9))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5)))), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;safe_div(mysqrt(cos(mul(safe_div(0.6586423762840032, x1), tan(x2)))), tanh(cos(safe_div(mylog(x9), sub(x10, x0)))));3
+None;safe_div(x9, x5);3
+None;mysqrt(mul(add(mul(add(mul(mul(cos(0.5056865202514591), tanh(x9)), tanh(x9)), x1), tanh(x9)), mypower2(sub(-0.01096409239091578, x5))), tanh(add(x11, x1))));3
+None;x6;3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(add(add(x11, x1), x1), safe_div(x6, x7))), add(mylog(add(x1, safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5)))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, x1))));3
+None;mysqrt(mul(add(mul(add(mul(mul(mylog(mysqrt(x9)), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;sub(x6, mylog(x6));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mysqrt(x9)), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9))))));3
+None;sin(mylog(safe_div(mypower3(x12), cos(x10))));3
+None;add(cos(x10), mypower2(x6));3
+None;mysqrt(mul(add(mul(add(mul(mul(add(mul(add(add(mul(add(add(mul(add(add(x11, x1), x1), tanh(x9)), x1), x1), tanh(x9)), x1), mypower2(sub(-0.01096409239091578, x5))), tanh(x9)), add(add(mylog(add(mypower2(x2), safe_div(x6, x7))), mypower2(sub(-0.01096409239091578, x5))), mysqrt(mypower2(mylog(mysqrt(x9)))))), tanh(x9)), tanh(x9)), x1), tanh(x9)), x1), tanh(add(x11, mysqrt(tanh(sub(add(x12, x11), mypower3(x6))))))));3
+None;0.45411747608063124;3
+None;mylog(mylog(x2));3
+1--------------------------------
+2--------------------------------
+3--------------------------------
+4--------------------------------
+5--------------------------------
+6--------------------------------
+7--------------------------------
+8--------------------------------
+9--------------------------------
+10--------------------------------
+11--------------------------------
+12--------------------------------
+13--------------------------------
+14--------------------------------
+15--------------------------------
+16--------------------------------
+17--------------------------------
+18--------------------------------
+19--------------------------------
+20--------------------------------
+21--------------------------------
+22--------------------------------
+23--------------------------------
+24--------------------------------
+25--------------------------------
+26--------------------------------
+27--------------------------------
+28--------------------------------
+29--------------------------------
+30--------------------------------
