@@ -22,15 +22,12 @@ params = [(i, config) for i in range(1)]
 #     for a in r:
 #         print a
 
-evoworker.initialize(config)
-a, b = evoworker.get_Speciedata(config)
+a, b = evoworker.initialize(config)
+#a, b = evoworker.get_Speciedata(config)
 
-
-
-problem='Housing'
 
 num_p = config["n_problem"]
-config["problem"] = problem
+problem=config["problem"]
 
 d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)

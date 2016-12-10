@@ -1,9 +1,9 @@
-CXPB: 0.9
+CXPB: 0.7
 DIRECCION: ./data_corridas/%s/train_%d_%d.txt
 LS_FLAG: false
 LS_SELECT: 9
 MAX_SAMPLES: 1
-MUTPB: 0.1
+MUTPB: 0.3
 PARAMS: [best_of_each_specie, 2, 'yes']
 POPULATION_SIZE: 100
 SAMPLE_SIZE: 100
@@ -16,11 +16,11 @@ gen_matrix: true
 n_corr: 18
 name_database: housing.txt
 neat_alg: true
-neat_cx: false
+neat_cx: true
 neat_h: 0.15
 neat_pelit: 0.5
 num_salto: 500
 problem: Housing
 n_problem: 601
 save_matrix: true
-set_specie: 3
+

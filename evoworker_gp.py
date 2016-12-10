@@ -24,6 +24,7 @@ import cherrypy_server
 
 
 pset = gp.PrimitiveSet("MAIN", 13)
+#pset = gp.PrimitiveSet("MAIN", 8) # Concrete
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.sub, 2)
 pset.addPrimitive(operator.mul, 2)
@@ -39,7 +40,7 @@ pset.addPrimitive(np.tan, 1)
 pset.addPrimitive(np.tanh, 1)
 pset.addEphemeralConstant("rand101", lambda: random.uniform(-1, 1))
 pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7',  ARG8='x8', ARG9='x9',  ARG10='x10',  ARG11='x11',  ARG12='x12')
-
+#pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7') # Concrete
 
 creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
 creator.create("FitnessTest", base.Fitness, weights=(-1.0,))
@@ -48,7 +49,8 @@ creator.create("Individual", neat_gp.PrimitiveTree, fitness=creator.FitnessMin, 
 def getToolBox(config):
     toolbox = base.Toolbox()
     # Attribute generator
-    toolbox.register("expr", gp.genHalfAndHalf, pset=pset, min_=0, max_=6)
+    #toolbox.register("expr", gp.genHalfAndHalf, pset=pset, min_=0, max_=6)
+    toolbox.register("expr", gp.genFull, pset=pset, min_=0, max_=3)
     # Structure initializers
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register("population", init_conf.initRepeat, list, toolbox.individual)
@@ -56,7 +58,8 @@ def getToolBox(config):
     # Operator registering
     toolbox.register("select", tools.selTournament, tournsize=7)
     toolbox.register("mate", neat_gp.cxSubtree)
-    toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=6)
+    toolbox.register("expr_mut", gp.genFull, min_=0, max_=3)
+    #toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=6)
     toolbox.register("mutate", neat_gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
     #toolbox.register("evaluate", evalSymbReg, points=data_[0])
     #toolbox.register("evaluate_test", evalSymbReg, points=data_[1])
@@ -123,6 +126,8 @@ def evalSymbReg(individual, points, toolbox):
     func = toolbox.compile(expr=individual)
     vector = points[13]
     data_x=np.asarray(points)[:13]
+    #vector = points[8] # Concrete
+    #data_x = np.asarray(points)[:8] # Concrete
     vector_x=func(*data_x)
     with np.errstate(divide='ignore', invalid='ignore'):
         if isinstance(vector_x, np.ndarray):

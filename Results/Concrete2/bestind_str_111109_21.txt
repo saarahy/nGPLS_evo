@@ -1,3 +1,0 @@
-
-0;2;mysqrt(x6)
-1;2;mysqrt(x6)
