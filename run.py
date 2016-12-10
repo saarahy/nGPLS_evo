@@ -22,8 +22,8 @@ params = [(i, config) for i in range(1)]
 #     for a in r:
 #         print a
 
-a, b = evoworker.initialize(config)
-#a, b = evoworker.get_Speciedata(config)
+#a, b = evoworker.initialize(config)
+a, b = evoworker.get_Speciedata(config)
 
 
 num_p = config["n_problem"]

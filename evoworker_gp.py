@@ -109,16 +109,14 @@ def speciation(config, pop_evo):
     return num_Specie, specie_list
 
 def get_Speciedata(config):
-    server = jsonrpclib.Server(config["SERVER"])#evospace.Population("pop")#jsonrpclib.Server(config["SERVER"])
-    evospace_sample = server.get_population()#server.getPopulation()
-    #evospace_sample = server.get_sample_specie(2)
+    server = jsonrpclib.Server(config["SERVER"])#evospace.Population("pop")
+    evospace_sample = server.getPopulation()#server.getPopulation()
     if evospace_sample['sample'][00]['specie'] == None:
         num_Specie, specie_list = speciation(config, evospace_sample)
     else:
-        #neat_h = 0.15
-        #pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in
-               #evospace_sample['sample']]
-        num_Specie, specie_list = max(server.getSpecies()), server.getSpecies()#neatGPLS_evospace.evo_species(pop, neat_h)
+        a=server.getSpecie()
+        specie_list=map(int, a)
+        num_Specie=max(specie_list)
     return num_Specie, specie_list
 
 
