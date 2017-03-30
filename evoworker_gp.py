@@ -30,6 +30,10 @@ import sys
 
 
 def getToolBox(config, pset):
+    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+    creator.create("FitnessTest", base.Fitness, weights=(-1.0,))
+    creator.create("Individual", neat_gp.PrimitiveTree, fitness=creator.FitnessMin, fitness_test=creator.FitnessTest)
+
     toolbox = base.Toolbox()
     neat_cx = config["neat_cx"]
     # Attribute generator
@@ -186,7 +190,7 @@ def evolve(sample_num, config):
     n_corr        = config["n_corr"]
     n_prob        = config["n_problem"]
     num_var       = config["num_var"]
-    name_database = config["name_database"]
+    name_database = config["db_name"]
 
     pset = conf_sets(num_var)
     toolbox = getToolBox(config,pset)
