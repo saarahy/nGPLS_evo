@@ -14,56 +14,40 @@ from deap import gp
 from speciation import getInd_perSpecie
 import gp_conf as neat_gp
 from my_operators import safe_div, mylog, mypower2, mypower3, mysqrt, myexp
+from conf_primitives import conf_sets
 
 #Imports de evospace
 import random, time
 #import evospace
 import xmlrpclib
 import jsonrpclib
-import cherrypy_server
+
 import sys
 
 
 
 
 
-#pset = gp.PrimitiveSet("MAIN", 13)
-pset = gp.PrimitiveSet("MAIN", 8) # Concrete
-pset.addPrimitive(operator.add, 2)
-pset.addPrimitive(operator.sub, 2)
-pset.addPrimitive(operator.mul, 2)
-pset.addPrimitive(safe_div, 2)
-pset.addPrimitive(np.cos, 1)
-pset.addPrimitive(np.sin, 1)
-#pset.addPrimitive(myexp, 1)
-pset.addPrimitive(mylog, 1)
-pset.addPrimitive(mypower2, 1)
-pset.addPrimitive(mypower3, 1)
-pset.addPrimitive(mysqrt, 1)
-pset.addPrimitive(np.tan, 1)
-pset.addPrimitive(np.tanh, 1)
-pset.addEphemeralConstant("rand101", lambda: random.uniform(-1, 1))
-#pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7',  ARG8='x8', ARG9='x9',  ARG10='x10',  ARG11='x11',  ARG12='x12')
-pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7') # Concrete
 
-creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-creator.create("FitnessTest", base.Fitness, weights=(-1.0,))
-creator.create("Individual", neat_gp.PrimitiveTree, fitness=creator.FitnessMin, fitness_test=creator.FitnessTest)
-
-def getToolBox(config):
+def getToolBox(config, pset):
     toolbox = base.Toolbox()
+    neat_cx = config["neat_cx"]
     # Attribute generator
-    #toolbox.register("expr", gp.genHalfAndHalf, pset=pset, min_=0, max_=6)
-    toolbox.register("expr", gp.genFull, pset=pset, min_=0, max_=3)
+    if neat_cx:
+        toolbox.register("expr", gp.genFull, pset=pset, min_=0, max_=3)
+    else:
+        toolbox.register("expr", gp.genHalfAndHalf, pset=pset, min_=0, max_=7)
     # Structure initializers
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register("population", init_conf.initRepeat, list, toolbox.individual)
     toolbox.register("compile", gp.compile, pset=pset)
     # Operator registering
-    toolbox.register("select", tools.selTournament, tournsize=7)
+    toolbox.register("select", tools.selTournament, tournsize=config["tournament_size"])
     toolbox.register("mate", neat_gp.cxSubtree)
-    toolbox.register("expr_mut", gp.genFull, min_=0, max_=3)
-    #toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=6)
+    if neat_cx:
+        toolbox.register("expr_mut", gp.genFull, min_=0, max_=3)
+    else:
+        toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=7)
     toolbox.register("mutate", neat_gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
     #toolbox.register("evaluate", evalSymbReg, points=data_[0])
     #toolbox.register("evaluate_test", evalSymbReg, points=data_[1])
@@ -75,8 +59,8 @@ def getToolBox(config):
 
 
 def initialize(config):
-    pop = getToolBox(config).population(n=config["POPULATION_SIZE"])
-    server = jsonrpclib.Server(config["SERVER"]) #evospace.Population("pop")
+    pop = getToolBox(config).population(n=config["population_size"])
+    server = jsonrpclib.Server(config["server"])
     server.initialize()
     #server.initialize(None)
     neat_alg = config["neat_alg"]
@@ -99,7 +83,7 @@ def speciation_init(config,server, pop):
     #server.putZample(evospace_sample)
     return num_Specie, specie_list, evospace_sample
 
-def speciation(config, pop_evo):
+def speciation(config, pop_evo, pset):
     server = jsonrpclib.Server(config["SERVER"])
     #numsampl=server.getSampleNumber()
     evospace_sample = pop_evo
@@ -113,7 +97,7 @@ def speciation(config, pop_evo):
     return num_Specie, specie_list
 
 def get_Speciedata(config):
-    server = jsonrpclib.Server(config["SERVER"])#evospace.Population("pop")
+    server = jsonrpclib.Server(config["server"])#evospace.Population("pop")
     # evospace_sample = server.getPopulation()#server.getPopulation()
     # if evospace_sample['sample'][00]['specie'] == None:
     #     num_Specie, specie_list = speciation(config, evospace_sample)
@@ -195,42 +179,49 @@ def data_(n_corr,p, problem, name_database,toolbox):
     toolbox.register("evaluate_test", evalSymbReg, points=data_test, toolbox=toolbox)
 
 def evolve(sample_num, config):
-    toolbox = getToolBox(config)
+
     start = time.time()
-    problem=config["problem"]
-    direccion=config["DIRECCION"]
-    n_corr=config["n_corr"]
-    n_prob=config["n_problem"]
-    name_database=config["name_database"]
+    problem       = config["problem"]
+    direccion     = "./data_corridas/%s/train_%d_%d.txt"
+    n_corr        = config["n_corr"]
+    n_prob        = config["n_problem"]
+    num_var       = config["num_var"]
+    name_database = config["name_database"]
 
-
+    pset = conf_sets(num_var)
+    toolbox = getToolBox(config,pset)
 
     #server = evospace.Population("pop")
-    server = jsonrpclib.Server(config["SERVER"])
+    server = jsonrpclib.Server(config["server"])
 
     #evospace_sample = server.get_sample(config["SAMPLE_SIZE"])
     #evospace_sample = server.getSample(config["SAMPLE_SIZE"])
 
-    evospace_sample= server.getSample_specie(config["set_specie"])
+    evospace_sample = server.getSample_specie(config["set_specie"])
 
     pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in evospace_sample['sample']]
 
-    cxpb = config["CXPB"]#0.7  # 0.9
-    mutpb = config["MUTPB"]#0.3  # 0.1
-    ngen = config["WORKER_GENERATIONS"]#50000
-    params = config["PARAMS"]
-    neat_cx = config["neat_cx"]
-    neat_alg = config["neat_alg"]
-    neat_pelit = config["neat_pelit"]
-    neat_h = config["neat_h"]
-    funcEval.LS_flag = config["LS_FLAG"]
-    LS_select = config["LS_SELECT"]
+    cxpb                = config["cxpb"]
+    mutpb               = config["mutpb"]
+    ngen                = config["worker_generations"]
+
+    params              = config["params"]
+    neat_cx             = config["neat_cx"]
+    neat_alg            = config["neat_alg"]
+    neat_pelit          = config["neat_pelit"]
+    neat_h              = config["neat_h"]
+
+    funcEval.LS_flag    = config["ls_flag"]
+    LS_select           = config["ls_select"]
     funcEval.cont_evalp = 0
-    num_salto = config["num_salto"]
-    cont_evalf = config["cont_evalf"]
-    SaveMatrix = config["save_matrix"]
-    GenMatrix = config["gen_matrix"]
+    num_salto           = config["num_salto"]
+    cont_evalf          = config["cont_evalf"]
+
+    SaveMatrix          = config["save_matrix"]
+    GenMatrix           = config["gen_matrix"]
     version=3
+    testing             = True
+
     data_(n_corr, n_prob, problem,name_database,toolbox)
 
     begin =time.time()
@@ -247,7 +238,7 @@ def evolve(sample_num, config):
     # else:
     pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
-                                       n_corr, n_prob, params, direccion, problem, testing=config["TESTING"], version=version,
+                                       n_corr, n_prob, params, direccion, problem, testing, version=version,
                                        set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
 
 
@@ -270,9 +261,9 @@ def evolve(sample_num, config):
 def work(params):
     worker_id = params[0][0]
     config = params[0][1]
-    server = jsonrpclib.Server(config["SERVER"])
+    server = jsonrpclib.Server(config["server"])
     results = []
-    for sample_num in range(config["MAX_SAMPLES"]):
+    for sample_num in range(config["max_samples"]):
         # if int(server.found(None)):
         #      break
         # else:

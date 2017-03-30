@@ -1,26 +1,36 @@
-CXPB: 0.7
-DIRECCION: ./data_corridas/%s/train_%d_%d.txt
-LS_FLAG: false
-LS_SELECT: 9
-MAX_SAMPLES: 1
-MUTPB: 0.3
-PARAMS: [best_of_each_specie, 2, 'yes']
-POPULATION_SIZE: 100
-SAMPLE_SIZE: 100
-SERVER: https://stormy-waters-38139.herokuapp.com/
-TESTING: true
-TOURNAMENT_SIZE: 2
-WORKER_GENERATIONS: 1
-cont_evalf: 100000
-gen_matrix: true
-n_corr: 5
-n_problem: 600
-name_database: housing.txt
-neat_alg: true
-neat_cx: true
-neat_h: 0.15
-neat_pelit: 0.5
-num_salto: 500
-problem: Housing
-save_matrix: true
+server: https://stormy-waters-38139.herokuapp.com/
+max_samples: 1
+
+problem: "Yacht2"
+num_var: 6
+n_problem: 4900
+db_name: "yacht_hydrodynamics.txt"
+#db_name: "energy_efficiency_Heat.csv"
+
+
+population_size: 100
+tournament_size: 7
+worker_generations: 200000
+cxpb: 0.9
+mutpb: 0.1
+params: ['best_of_each_specie', 2, 'yes']
+
 set_specie: 2
+neat_cx: False
+neat_alg: False
+neat_pelit: 0.5
+neat_h: 0.15
+
+ls_flag: True
+ls_select: 9
+
+save_matrix: True
+gen_matrix: False
+
+num_salto: 500
+cont_evalf: 50000
+
+run_begin: 1
+run_end: 31
+
+
