@@ -209,9 +209,10 @@ def evolve(sample_num, config):
     for cs in evospace_sample['sample']:
         i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
         if isinstance(cs['params'], list):
-            i.params_set(cs['params'])
+            i.params_set(np.asarray(cs['params']))
         elif isinstance(cs['params'], unicode):
-            i.params_set([float(elem) for elem in cs['params'].strip('[]').split(',')])
+            i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
+        i.specie(int(cs['specie']))
         pop.append(i)
 
     cxpb                = config["cxpb"]
@@ -257,13 +258,14 @@ def evolve(sample_num, config):
 
     putback =  time.time()
     #
-    sample = [{"specie":str(ind.get_specie()),"chromosome":str(ind),"id":None, "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]}, "params":str([x for x in ind.get_params()]) if funcEval.LS_flag else None } for ind in pop]
+    best_ind = tools.selBest(pop, 1)[0]
+    sample = [{"specie":str(best_ind.get_specie()),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
     #print sample
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     #evospace_sample['sample'] = sample
     #server.putSample(evospace_sample)
     server.putZample(evospace_sample)
-    best_ind = tools.selBest(pop, 1)[0]
+    #best_ind = tools.selBest(pop, 1)[0]
     #
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),

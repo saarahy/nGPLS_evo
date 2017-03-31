@@ -283,10 +283,11 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
     if funcEval.LS_flag:
         for ind in population:
-            sizep = len(ind)+2
-            param_ones = np.ones(sizep)
-            param_ones[0] = 0
-            ind.params_set(param_ones)
+            if ind.get_params() is None:
+                sizep = len(ind)+2
+                param_ones = np.ones(sizep)
+                param_ones[0] = 0
+                ind.params_set(param_ones)
 
     # Evaluate the individuals with an invalid fitness
     invalid_ind = [ind for ind in population if not ind.fitness.valid]
