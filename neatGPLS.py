@@ -134,7 +134,7 @@ def ensure_dir(f):
         os.makedirs(d)
 
 def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h,neat_pelit, LS_flag, LS_select, cont_evalf,
-               num_salto, SaveMatrix, GenMatrix, pset,n_corr, num_p, params, direccion, problem, testing, version,
+               num_salto, SaveMatrix, GenMatrix, pset,n_corr, num_p, params, direccion, problem, testing, version, set_specie,
                stats=None, halloffame=None, verbose=__debug__):
     """This algorithm reproduce the simplest evolutionary algorithm as
     presented in chapter 7 of [Back2000]_.
@@ -208,35 +208,35 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
     d = './Results/%s/bestind_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    best = open(d, 'w')  # save data
+    best = open(d, 'a')  # save data
 
     d = './Results/%s/bestind_str_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    out = open(d, 'w')
+    out = open(d, 'a')
 
     d='./Timing/%s/pop_file_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    time_file = open(d, 'w')
+    time_file = open(d, 'a')
 
     d = './Timing/%s/specie_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    time_specie = open(d, 'w')
+    time_specie = open(d, 'a')
 
     d = './Timing/%s/cruce_s_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    time_cx = open(d, 'w')
+    time_cx = open(d, 'a')
 
     d = './Specie/%s/specieind_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    specie_file = open(d, 'w')
+    specie_file = open(d, 'a')
 
     d = './Specie/%s/specist_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    specie_statis = open(d, 'w')
+    specie_statis = open(d, 'a')
 
     d = './Results/%s/bestind_LStr_%d_%d.txt' % (problem, num_p, n_corr)
     ensure_dir(d)
-    bestind = open(d, 'w')
+    bestind = open(d, 'a')
 
     begin=time.time()
 
@@ -322,7 +322,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         Matrix[idx, 9] = ind.get_specie() # max number of species in the current population
         Matrix[idx, 10] = max(ind_specie(population), key=lambda x: x[0])[0]  # max number of species in the current population
 
-        np.savetxt('./Matrix/%s/idx_%d_%d.txt' % (problem,num_p, n_corr), Matrix, delimiter=",", fmt="%s")
+        np.savetxt('./Matrix/%s/idx_%d_%d_%s.txt' % (problem,num_p, n_corr,set_specie), Matrix, delimiter=",", fmt="%s")
 
     if neat_alg:
         SpeciesPunishment(population,params,neat_h)
@@ -668,7 +668,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                     x = Matrix[id_beg, 1:8]
                     Matrix[id_beg:idx_aux, 1:] = Matrix[id_beg, 1:]
 
-            np.savetxt('./Matrix/%s/idx_%d_%d.txt' % (problem, num_p, n_corr), Matrix, delimiter=",", fmt="%s")
+            np.savetxt('./Matrix/%s/idx_%d_%d_%s.txt' % (problem, num_p, n_corr,set_specie), Matrix, delimiter=",", fmt="%s")
 
         end_t=time.time()
         if testing:

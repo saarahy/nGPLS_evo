@@ -17,14 +17,18 @@ from my_operators import safe_div, mylog, mypower2, mypower3, mysqrt, myexp
 
 #Imports de evospace
 import random, time
-import evospace
+#import evospace
 import xmlrpclib
 import jsonrpclib
 import cherrypy_server
+import sys
 
 
-pset = gp.PrimitiveSet("MAIN", 13)
-#pset = gp.PrimitiveSet("MAIN", 8) # Concrete
+
+
+
+#pset = gp.PrimitiveSet("MAIN", 13)
+pset = gp.PrimitiveSet("MAIN", 8) # Concrete
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.sub, 2)
 pset.addPrimitive(operator.mul, 2)
@@ -39,8 +43,8 @@ pset.addPrimitive(mysqrt, 1)
 pset.addPrimitive(np.tan, 1)
 pset.addPrimitive(np.tanh, 1)
 pset.addEphemeralConstant("rand101", lambda: random.uniform(-1, 1))
-pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7',  ARG8='x8', ARG9='x9',  ARG10='x10',  ARG11='x11',  ARG12='x12')
-#pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7') # Concrete
+#pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7',  ARG8='x8', ARG9='x9',  ARG10='x10',  ARG11='x11',  ARG12='x12')
+pset.renameArguments(ARG0='x0',ARG1='x1', ARG2='x2', ARG3='x3', ARG4='x4', ARG5='x5', ARG6='x6', ARG7='x7') # Concrete
 
 creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
 creator.create("FitnessTest", base.Fitness, weights=(-1.0,))
@@ -92,7 +96,7 @@ def speciation_init(config,server, pop):
     num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": [0.0],  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
-    server.putZample(evospace_sample)
+    #server.putZample(evospace_sample)
     return num_Specie, specie_list, evospace_sample
 
 def speciation(config, pop_evo):
@@ -110,22 +114,22 @@ def speciation(config, pop_evo):
 
 def get_Speciedata(config):
     server = jsonrpclib.Server(config["SERVER"])#evospace.Population("pop")
-    evospace_sample = server.getPopulation()#server.getPopulation()
-    if evospace_sample['sample'][00]['specie'] == None:
-        num_Specie, specie_list = speciation(config, evospace_sample)
-    else:
-        a=server.getSpecie()
-        specie_list=map(int, a)
-        num_Specie=max(specie_list)
+    # evospace_sample = server.getPopulation()#server.getPopulation()
+    # if evospace_sample['sample'][00]['specie'] == None:
+    #     num_Specie, specie_list = speciation(config, evospace_sample)
+    # else:
+    a=server.getSpecie()
+    specie_list=map(int, a)
+    num_Specie=max(specie_list)
     return num_Specie, specie_list
 
 
 def evalSymbReg(individual, points, toolbox):
     func = toolbox.compile(expr=individual)
-    vector = points[13]
-    data_x=np.asarray(points)[:13]
-    #vector = points[8] # Concrete
-    #data_x = np.asarray(points)[:8] # Concrete
+    #vector = points[13]
+    #data_x=np.asarray(points)[:13]
+    vector = points[8] # Concrete
+    data_x = np.asarray(points)[:8] # Concrete
     vector_x=func(*data_x)
     with np.errstate(divide='ignore', invalid='ignore'):
         if isinstance(vector_x, np.ndarray):
@@ -244,16 +248,16 @@ def evolve(sample_num, config):
     pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
                                        n_corr, n_prob, params, direccion, problem, testing=config["TESTING"], version=version,
-                                       stats=None, halloffame=None, verbose=True)
+                                       set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
 
 
     putback =  time.time()
     #
-    sample = [{"chromosome":str(ind),"id":None, "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]}, "params":[x for x in ind.get_params()]if funcEval.LS_flag else [0.0] } for ind in pop]
+    sample = [{"specie":str(ind.get_specie()),"chromosome":str(ind),"id":None, "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]}, "params":[x for x in ind.get_params()]if funcEval.LS_flag else [0.0] } for ind in pop]
     #print sample
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     #evospace_sample['sample'] = sample
-    #server.put_sample(evospace_sample)
+    #server.putSample(evospace_sample)
     server.putZample(evospace_sample)
     best_ind = tools.selBest(pop, 1)[0]
     #
