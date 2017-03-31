@@ -2,8 +2,8 @@ cont_evalf: 50000
 cxpb: 0.9
 db_name: housing.txt
 gen_matrix: false
-ls_flag: false
-ls_select: 9
+ls_flag: true
+ls_select: 8
 max_samples: 1
 mutpb: 0.1
 n_corr: 5
@@ -21,6 +21,6 @@ run_begin: 1
 run_end: 31
 save_matrix: true
 server: https://stormy-waters-38139.herokuapp.com/
-set_specie: 2
+set_specie: 1
 tournament_size: 7
 worker_generations: 1

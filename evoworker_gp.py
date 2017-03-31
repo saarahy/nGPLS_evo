@@ -63,7 +63,8 @@ def getToolBox(config, pset):
 
 
 def initialize(config):
-    pop = getToolBox(config).population(n=config["population_size"])
+    pset = conf_sets(config["num_var"])
+    pop = getToolBox(config, pset).population(n=config["population_size"])
     server = jsonrpclib.Server(config["server"])
     server.initialize()
     #server.initialize(None)
@@ -71,7 +72,7 @@ def initialize(config):
     if neat_alg:
         a,b,init_pop=speciation_init(config, server, pop)
     else:
-        sample = [{"chromosome":str(ind), "id":None, "fitness":{"DefaultContext":0.0}, "params":[0.0], "specie":1} for ind in pop]
+        sample = [{"chromosome":str(ind), "id":None, "fitness":{"DefaultContext":0.0}, "params":None, "specie":1} for ind in pop]
         init_pop = {'sample_id': 'None' , 'sample':   sample}
         a=1
         b=1
@@ -82,7 +83,7 @@ def initialize(config):
 def speciation_init(config,server, pop):
     neat_h=0.15
     num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
-    sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": [0.0],  "specie":ind.get_specie()} for ind in pop]
+    sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     #server.putZample(evospace_sample)
     return num_Specie, specie_list, evospace_sample
@@ -95,7 +96,7 @@ def speciation(config, pop_evo, pset):
            evospace_sample['sample']]
     neat_h=0.15
     num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
-    sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": [0.0],  "specie":ind.get_specie()} for ind in pop]
+    sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     server.putZample(evospace_sample)
     return num_Specie, specie_list
@@ -203,7 +204,15 @@ def evolve(sample_num, config):
 
     evospace_sample = server.getSample_specie(config["set_specie"])
 
-    pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in evospace_sample['sample']]
+    #pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in evospace_sample['sample']]
+    pop=[]
+    for cs in evospace_sample['sample']:
+        i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
+        if isinstance(cs['params'], list):
+            i.params_set(cs['params'])
+        elif isinstance(cs['params'], unicode):
+            i.params_set([float(elem) for elem in cs['params'].strip('[]').split(',')])
+        pop.append(i)
 
     cxpb                = config["cxpb"]
     mutpb               = config["mutpb"]
@@ -248,7 +257,7 @@ def evolve(sample_num, config):
 
     putback =  time.time()
     #
-    sample = [{"specie":str(ind.get_specie()),"chromosome":str(ind),"id":None, "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]}, "params":[x for x in ind.get_params()]if funcEval.LS_flag else [0.0] } for ind in pop]
+    sample = [{"specie":str(ind.get_specie()),"chromosome":str(ind),"id":None, "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]}, "params":str([x for x in ind.get_params()]) if funcEval.LS_flag else None } for ind in pop]
     #print sample
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     #evospace_sample['sample'] = sample

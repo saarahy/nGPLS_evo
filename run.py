@@ -23,7 +23,7 @@ params = [(i, config) for i in range(1)]
 #         print a
 
 #
-#a, b = evoworker.initialize(config)
+# a, b = evoworker.initialize(config)
 # a, b = evoworker.get_Speciedata(config)
 #
 #
@@ -33,7 +33,7 @@ problem=config["problem"]
 d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)
 best = open(d, 'a')
-specie=2#int(random.choice(b))
+specie=1#int(random.choice(b))
 config["set_specie"] = specie
 for ci in range(5,6):
     print ci
@@ -47,4 +47,4 @@ for ci in range(5,6):
         best.write('\n%s;%s;%s'% (ci, result[0][2], result[0][3]))
 
         print 'finished'
-
+#
