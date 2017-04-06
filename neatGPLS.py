@@ -289,12 +289,25 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 param_ones[0] = 0
                 ind.params_set(param_ones)
 
-    # Evaluate the individuals with an invalid fitness
-    invalid_ind = [ind for ind in population if not ind.fitness.valid]
-    fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
-    for ind, fit in zip(invalid_ind, fitnesses):
-        funcEval.cont_evalp += 1
-        ind.fitness.values = fit
+        invalid_ind = [ind for ind in population]
+        new_invalid_ind = []
+        for ind in invalid_ind:
+            strg = ind.__str__()
+            l_strg = add_subt(strg, ind)
+            c = tree2f()
+            cd = c.convert(l_strg)
+            new_invalid_ind.append(cd)
+        fitness_ls = toolbox.map(toolbox.evaluate, new_invalid_ind)
+        for ind, ls_fit in zip(invalid_ind, fitness_ls):
+            funcEval.cont_evalp += 1
+            ind.fitness.values = ls_fit
+    else:
+        # Evaluate the individuals with an invalid fitness
+        invalid_ind = [ind for ind in population]
+        fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+        for ind, fit in zip(invalid_ind, fitnesses):
+            funcEval.cont_evalp += 1
+            ind.fitness.values = fit
 
     best_ind = best_pop(population)  # best individual of the population
     if testing:
@@ -338,7 +351,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         out.write('\n%s;%s;%s' % (0, len(best_ind), best_ind))
 
     for ind in population:
-        pop_file.write('\n%s;%s'%(ind.fitness.values[0], ind))
+        pop_file.write('\n%s;%s;%s'%(ind.fitness.values[0], ind, [x for x in ind.get_params()]))
 
     ls_type = ''
     if LS_select == 1:
@@ -439,14 +452,30 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                         ind.nodefeat_set(level_info)
 
             specie_parents_child(parents,offspring, neat_h, version)
+
             offspring[:] = parents+offspring
             #ind_specie(offspring)
-            invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
-            fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+            if funcEval.LS_flag:
+                invalid_ind = [ind for ind in offspring]
+                if funcEval.LS_flag:
+                    new_invalid_ind = []
+                    for ind in invalid_ind:
+                        strg = ind.__str__()
+                        l_strg = add_subt(strg, ind)
+                        c = tree2f()
+                        cd = c.convert(l_strg)
+                        new_invalid_ind.append(cd)
+                    fitness_ls = toolbox.map(toolbox.evaluate, new_invalid_ind)
+                    for ind, ls_fit in zip(invalid_ind, fitness_ls):
+                        funcEval.cont_evalp += 1
+                        ind.fitness.values = ls_fit
+            else:
+                invalid_ind = [ind for ind in offspring]
+                fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
 
-            for ind, fit in zip(invalid_ind, fitnesses):
-                funcEval.cont_evalp += 1
-                ind.fitness.values = fit
+                for ind, fit in zip(invalid_ind, fitnesses):
+                    funcEval.cont_evalp += 1
+                    ind.fitness.values = fit
 
             end_sp = time.time()
             time_specie.write('\n%s;%s;%s;%s' % (gen, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))

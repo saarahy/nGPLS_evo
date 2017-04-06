@@ -6,7 +6,7 @@ ls_flag: true
 ls_select: 8
 max_samples: 1
 mutpb: 0.1
-n_corr: 5
+n_corr: 3
 n_problem: 4900
 neat_alg: true
 neat_cx: true
@@ -21,6 +21,6 @@ run_begin: 1
 run_end: 31
 save_matrix: true
 server: https://stormy-waters-38139.herokuapp.com/
-set_specie: 1
+set_specie: 3
 tournament_size: 7
 worker_generations: 1

@@ -33,9 +33,9 @@ problem=config["problem"]
 d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)
 best = open(d, 'a')
-specie=2#int(random.choice(b))
+specie=3#int(random.choice(b))
 config["set_specie"] = specie
-for ci in range(5,6):
+for ci in range(3,4):
     print ci
     config["n_corr"]=ci
     with open("conf/conf.yaml","w") as f:
