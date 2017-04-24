@@ -9,7 +9,7 @@ mutpb: 0.1
 n_corr: 3
 n_problem: 4900
 neat_alg: true
-neat_cx: true
+neat_cx: false
 neat_h: 0.15
 neat_pelit: 0.5
 num_salto: 500

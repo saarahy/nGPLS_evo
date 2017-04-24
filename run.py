@@ -36,7 +36,6 @@ best = open(d, 'a')
 specie=3#int(random.choice(b))
 config["set_specie"] = specie
 for ci in range(3,4):
-    print ci
     config["n_corr"]=ci
     with open("conf/conf.yaml","w") as f:
         yaml.dump(config, f)
