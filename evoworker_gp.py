@@ -22,12 +22,6 @@ import random, time
 import xmlrpclib
 import jsonrpclib
 
-import sys
-
-
-
-
-
 
 def getToolBox(config, pset):
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
@@ -67,26 +61,25 @@ def initialize(config):
     pop = getToolBox(config, pset).population(n=config["population_size"])
     server = jsonrpclib.Server(config["server"])
     server.initialize()
-    #server.initialize(None)
     neat_alg = config["neat_alg"]
     if neat_alg:
-        a,b,init_pop=speciation_init(config, server, pop)
+        a, b, init_pop = speciation_init(config, server, pop)
     else:
-        sample = [{"chromosome":str(ind), "id":None, "fitness":{"DefaultContext":0.0}, "params":None, "specie":1} for ind in pop]
-        init_pop = {'sample_id': 'None' , 'sample':   sample}
-        a=1
-        b=1
-    #server.put_sample(init_pop)
+        sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None, "specie": 1} for ind in pop]
+        init_pop = {'sample_id': 'None', 'sample': sample}
+        a = 1
+        b = 1
     server.putZample(init_pop)
-    return a,b
+    return a, b
+
 
 def speciation_init(config,server, pop):
-    neat_h=0.15
-    num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
+    neat_h = 0.15
+    num_Specie, specie_list = neatGPLS.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
-    #server.putZample(evospace_sample)
     return num_Specie, specie_list, evospace_sample
+
 
 def speciation(config, pop_evo, pset):
     server = jsonrpclib.Server(config["SERVER"])
@@ -100,6 +93,7 @@ def speciation(config, pop_evo, pset):
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     server.putZample(evospace_sample)
     return num_Specie, specie_list
+
 
 def get_Speciedata(config):
     server = jsonrpclib.Server(config["server"])#evospace.Population("pop")
@@ -127,6 +121,7 @@ def evalSymbReg(individual, points, toolbox):
                     vector_x[e] = 0.
     result = np.sum((vector_x - vector)**2)
     return np.sqrt(result/len(points[0])),
+
 
 def data_(n_corr,p, problem, name_database,toolbox):
     n_archivot='./data_corridas/%s/test_%d_%d.txt'%(problem,p,n_corr)
@@ -259,7 +254,7 @@ def evolve(sample_num, config):
     putback =  time.time()
     #
     best_ind = tools.selBest(pop, 1)[0]
-    sample = [{"specie":str(best_ind.get_specie()),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
+    sample = [{"specie":str(config["set_specie"]),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
     #print sample
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     #evospace_sample['sample'] = sample

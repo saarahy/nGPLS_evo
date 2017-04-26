@@ -11,6 +11,7 @@ def _general_function(params, xdata, ydata, function, strg):
     x = function(strg, xdata, *params) - ydata
     return x
 
+
 def curve_fit_2(f, strg,xdata, ydata, p0=None, sigma=None, absolute_sigma=False,
               check_finite=True, bounds=(-np.inf, np.inf), method=None,
               **kwargs):
@@ -192,10 +193,10 @@ def curve_fit_2(f, strg,xdata, ydata, p0=None, sigma=None, absolute_sigma=False,
             raise RuntimeError("Optimal parameters not found: " + errmsg)
     else:
         res = minpack.least_squares(func, p0, args=args, bounds=bounds, method=method,**kwargs)
-        if res==False:
-            return [0],[0],res,0
+        if res == False:
+            return [0], [0], res, 0
         if not res.success:
-            return res.x,[0],True, res.nfev
+            return res.x, [0], True, res.nfev
             #raise RuntimeError("Optimal parameters not found: " + res.message)
 
         cost = 2 * res.cost  # res.cost is half sum of squares!
