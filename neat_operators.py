@@ -58,7 +58,7 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
             if neat_cx:
                 hijo = neatcx(of1, of2, toolbox)
             else:
-                hijo, offspring2 =  toolbox.mate(of1, of2)
+                hijo, offspring2 = toolbox.mate(of1, of2)
             hijo.descendents(0)
             hijo.fitness_sharing(0)
             hijo.bestspecie_set(None)

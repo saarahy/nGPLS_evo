@@ -4,7 +4,7 @@ import csv
 import funcEval
 import numpy as np
 import neatGPLS
-import neatGPLS_evospace
+#import neatGPLS_evospace
 import init_conf
 import os.path
 from deap import base
@@ -178,18 +178,17 @@ def data_(n_corr,p, problem, name_database,toolbox):
     toolbox.register("evaluate", evalSymbReg, points=data_train, toolbox=toolbox)
     toolbox.register("evaluate_test", evalSymbReg, points=data_test, toolbox=toolbox)
 
-def evolve(sample_num, config):
+
+def evolve(sample_num, config, toolbox, pset):
 
     start = time.time()
     problem       = config["problem"]
     direccion     = "./data_corridas/%s/train_%d_%d.txt"
-    n_corr        = config["n_corr"]
+    n_corr        = sample_num # config["n_corr"]
     n_prob        = config["n_problem"]
-    num_var       = config["num_var"]
+
     name_database = config["db_name"]
 
-    pset = conf_sets(num_var)
-    toolbox = getToolBox(config,pset)
 
     #server = evospace.Population("pop")
     server = jsonrpclib.Server(config["server"])
@@ -231,53 +230,43 @@ def evolve(sample_num, config):
     version=3
     testing             = True
 
-    data_(n_corr, n_prob, problem,name_database,toolbox)
+    data_(n_corr, n_prob, problem,name_database, toolbox)
 
     begin =time.time()
     print "inicio del proceso"
 
-    # if neat_alg:
-    #     #num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
-    #     #for specie in specie_list:
-    #         #pop_gpo=getInd_perSpecie(specie, pop)
-    #     pop, log = neatGPLS.neat_GP_LS(pop_gpo, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
-    #                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
-    #                                        n_corr, n_prob, params, direccion, problem, stats=None, halloffame=None,
-    #                                        verbose=True)
-    # else:
     pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
                                        n_corr, n_prob, params, direccion, problem, testing, version=version,
                                        set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
 
-
     putback =  time.time()
-    #
+
     best_ind = tools.selBest(pop, 1)[0]
     sample = [{"specie":str(config["set_specie"]),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
-    #print sample
     evospace_sample = {'sample_id': 'None', 'sample': sample}
-    #evospace_sample['sample'] = sample
     #server.putSample(evospace_sample)
     server.putZample(evospace_sample)
-    #best_ind = tools.selBest(pop, 1)[0]
-    #
+
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
                                          round(time.time() - putback, 2), best_ind]
     return best
-    #
+
 
 def work(params):
     worker_id = params[0][0]
     config = params[0][1]
     server = jsonrpclib.Server(config["server"])
+    num_var = config["num_var"]
     results = []
-    for sample_num in range(config["max_samples"]):
+    pset = conf_sets(num_var)
+    toolbox = getToolBox(config, pset)
+    for sample_num in range(1, config["max_samples"]):
         # if int(server.found(None)):
         #      break
         # else:
-        gen_data = evolve(sample_num, config)
+        gen_data = evolve(sample_num, config, toolbox, pset)
 
             # if gen_data[0]:
             #      server.found_it(None)
