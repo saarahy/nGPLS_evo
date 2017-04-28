@@ -4,7 +4,7 @@ from speciation import get_specie_ind, ind_specie
 from crosspoints import *
 
 
-def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit):
+def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
     r=list()
     i=0
     copy_parent=copy.deepcopy(parents)
@@ -55,7 +55,10 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit):
                 ind2 = random.choice(copy_parent)
             of1 = copy.deepcopy(ind1)
             of2 = copy.deepcopy(ind2)
-            hijo = neatcx(of1, of2, toolbox)
+            if neat_cx:
+                hijo = neatcx(of1, of2, toolbox)
+            else:
+                hijo, offspring2 =  toolbox.mate(of1, of2)
             hijo.descendents(0)
             hijo.fitness_sharing(0)
             hijo.bestspecie_set(None)

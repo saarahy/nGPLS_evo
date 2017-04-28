@@ -3,10 +3,7 @@ from my_operators import safe_div, mylog, mysqrt, mypower2, mypower3
 from operator import add, sub, mul
 from g_address import get_address
 
-p=4900
-n=1
-problem="Housing"
-direccion="./data_corridas/%s/train_%d_%d.txt"
+
 
 
 def eval_(strg, x, *p):

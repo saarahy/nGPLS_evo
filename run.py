@@ -33,7 +33,7 @@ ensure_dir(d)
 best = open(d, 'a')
 specie = 7  # int(random.choice(b))
 config["set_specie"] = specie
-for ci in range(1, 2):
+for ci in range(8, 9):
     config["n_corr"] = ci
     with open("conf/conf.yaml", "w") as f:
         yaml.dump(config, f)
