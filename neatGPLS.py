@@ -253,10 +253,10 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
     if SaveMatrix:  # Saving data in matrix
         num_r = 11
-        num_r_sp=2
+        num_r_sp = 2
         if GenMatrix:
-            num_salto=1
-            num_c=ngen+1
+            num_salto = 1
+            num_c = ngen+1
             Matrix= np.empty((num_c, num_r,))
             Matrix_specie = np.empty((num_c, num_r_sp,), dtype=object)
             vector = np.arange(0, num_c, num_salto)
@@ -272,6 +272,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         Matrix[:, 6] = 0.
 
     begin_sp = time.time()
+
     if neat_alg:
         if version == 1:
             for ind in population:
@@ -283,14 +284,13 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 ind.nodefeat_set(level_info)
 
         species(population, neat_h, version)
-        #ind_specie(population)
 
     end_sp = time.time()
     time_specie.write('\n%s;%s;%s;%s' % (0, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))
 
     specie_file.write('\n-------')
     for ind in population:
-        specie_file.write('\n%s;%s;%s' % (ind.get_specie(),ind,version))
+        specie_file.write('\n%s;%s;%s' % (ind.get_specie(), ind, version))
 
     if funcEval.LS_flag:
         for ind in population:
@@ -324,13 +324,14 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     if testing:
         fitnesst_best = toolbox.map(toolbox.evaluate_test, [best_ind])
         best_ind.fitness_test.values = fitnesst_best[0]
-    if testing:
         best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness_test.values[0], best_ind.fitness.values[0], len(best_ind), avg_nodes(population)))
     else:
         best.write('\n%s;%s;%s;%s;%s;%s' % (
         0, funcEval.cont_evalp, None, best_ind.fitness.values[0], len(best_ind),
         avg_nodes(population)))
-    data_pop=avg_nodes(population)
+
+    data_pop = avg_nodes(population)
+
     if SaveMatrix:
         idx = 0
         Matrix[idx, 1] = best_ind.fitness.values[0]
@@ -344,8 +345,12 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         Matrix[idx, 6] = 1  # just an id to know if the current row is full
         Matrix[idx, 7] = data_pop[1]  # max size
         Matrix[idx, 8] = data_pop[2]  # min size
-        Matrix[idx, 9] = ind.get_specie() # max number of species in the current population
-        Matrix[idx, 10] = max(ind_specie(population), key=lambda x: x[0])[0]  # max number of species in the current population
+        if neat_alg:
+            Matrix[idx, 9] = ind.get_specie() # max number of species in the current population
+            Matrix[idx, 10] = max(ind_specie(population), key=lambda x: x[0])[0]  # max number of species in the current population
+        else:
+            Matrix[idx, 9] = 0.
+            Matrix[idx, 10] = 0.
 
         np.savetxt('./Matrix/%s/idx_%d_%d.txt' % (problem,num_p, n_corr), Matrix, delimiter=",", fmt="%s")
 
@@ -402,9 +407,8 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     end_t=time.time()
 
     if SaveMatrix:
-        idx=0
-        Matrix_specie[idx,1]=ind_specie(population)
-    #specie_statis.write('\n%s;%s' % (0, ind_specie(population)))
+        idx = 0
+        Matrix_specie[idx, 1] = ind_specie(population)
         np.savetxt('./Specie/%s/specist_%d_%d.txt' % (problem, num_p, n_corr), Matrix_specie, delimiter=";", fmt="%s")
     if testing:
         time_file.write('\n%s;%s;%s;%s;%s;%s' % (0, begin,end_t, str(round(end_t - begin, 2)), best_ind.fitness.values[0], best_ind.fitness_test.values[0]))
@@ -462,9 +466,8 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                         level_info = level_node(ind)
                         ind.nodefeat_set(level_info)
 
-            specie_parents_child(parents,offspring, neat_h, version)
+            specie_parents_child(parents, offspring, neat_h, version)
             offspring[:] = parents+offspring
-            #ind_specie(offspring)
 
             invalid_ind = [ind for ind in offspring]
             if funcEval.LS_flag:
@@ -481,7 +484,6 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                     ind.fitness.values = ls_fit
             else:
                 fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
-
                 for ind, fit in zip(invalid_ind, fitnesses):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = fit
