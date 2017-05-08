@@ -47,9 +47,6 @@ def getToolBox(config, pset):
     else:
         toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=7)
     toolbox.register("mutate", neat_gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
-    #toolbox.register("evaluate", evalSymbReg, points=data_[0])
-    #toolbox.register("evaluate_test", evalSymbReg, points=data_[1])
-
     toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
     toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
@@ -69,6 +66,7 @@ def initialize(config):
         init_pop = {'sample_id': 'None', 'sample': sample}
         a = 1
         b = 1
+
     server.putZample(init_pop)
     return a, b
 
@@ -107,13 +105,11 @@ def get_Speciedata(config):
     return num_Specie, specie_list
 
 
-def evalSymbReg(individual, points, toolbox):
+def evalSymbReg(individual, points, toolbox, config):
     func = toolbox.compile(expr=individual)
-    #vector = points[13]
-    #data_x=np.asarray(points)[:13]
-    vector = points[8] # Concrete
-    data_x = np.asarray(points)[:8] # Concrete
-    vector_x=func(*data_x)
+    vector = points[config["num_var"]]
+    data_x = np.asarray(points)[:config["num_var"]]
+    vector_x = func(*data_x)
     with np.errstate(divide='ignore', invalid='ignore'):
         if isinstance(vector_x, np.ndarray):
             for e in range(len(vector_x)):
@@ -123,7 +119,7 @@ def evalSymbReg(individual, points, toolbox):
     return np.sqrt(result/len(points[0])),
 
 
-def data_(n_corr,p, problem, name_database,toolbox):
+def data_(n_corr, p, problem, name_database,toolbox, config):
     n_archivot='./data_corridas/%s/test_%d_%d.txt'%(problem,p,n_corr)
     n_archivo='./data_corridas/%s/train_%d_%d.txt'%(problem,p,n_corr)
     if not (os.path.exists(n_archivo) or os.path.exists(n_archivot)):
@@ -175,8 +171,8 @@ def data_(n_corr,p, problem, name_database,toolbox):
                     break
         data_test=Matrix[:]
     #return data_train,data_test
-    toolbox.register("evaluate", evalSymbReg, points=data_train, toolbox=toolbox)
-    toolbox.register("evaluate_test", evalSymbReg, points=data_test, toolbox=toolbox)
+    toolbox.register("evaluate", evalSymbReg, points=data_train, toolbox=toolbox, config = config)
+    toolbox.register("evaluate_test", evalSymbReg, points=data_test, toolbox=toolbox, config = config)
 
 
 def evolve(sample_num, config, toolbox, pset):
@@ -184,21 +180,15 @@ def evolve(sample_num, config, toolbox, pset):
     start = time.time()
     problem       = config["problem"]
     direccion     = "./data_corridas/%s/train_%d_%d.txt"
-    n_corr        = sample_num # config["n_corr"]
+    n_corr        = config["n_corr"]
     n_prob        = config["n_problem"]
 
     name_database = config["db_name"]
-
-
-    #server = evospace.Population("pop")
     server = jsonrpclib.Server(config["server"])
 
-    #evospace_sample = server.get_sample(config["SAMPLE_SIZE"])
-    #evospace_sample = server.getSample(config["SAMPLE_SIZE"])
-
+    #evospace_sample = server.getSample(config["population_size"])
     evospace_sample = server.getSample_specie(config["set_specie"])
 
-    #pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in evospace_sample['sample']]
     pop=[]
     for cs in evospace_sample['sample']:
         i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
@@ -230,7 +220,7 @@ def evolve(sample_num, config, toolbox, pset):
     version=3
     testing             = True
 
-    data_(n_corr, n_prob, problem,name_database, toolbox)
+    data_(n_corr, n_prob, problem, name_database, toolbox, config)
 
     begin =time.time()
     print "inicio del proceso"
@@ -245,7 +235,7 @@ def evolve(sample_num, config, toolbox, pset):
     best_ind = tools.selBest(pop, 1)[0]
     sample = [{"specie":str(config["set_specie"]),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
-    #server.putSample(evospace_sample)
+
     server.putZample(evospace_sample)
 
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
@@ -263,15 +253,7 @@ def work(params):
     pset = conf_sets(num_var)
     toolbox = getToolBox(config, pset)
     for sample_num in range(1, config["max_samples"]):
-        # if int(server.found(None)):
-        #      break
-        # else:
         gen_data = evolve(sample_num, config, toolbox, pset)
-
-            # if gen_data[0]:
-            #      server.found_it(None)
-        #if server.getSampleNumber()>4:
-            #num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
         results.append([worker_id] + gen_data)
     return results
 

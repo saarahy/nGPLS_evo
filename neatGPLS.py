@@ -246,6 +246,14 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     ensure_dir(d)
     bestind = open(d, 'w')
 
+    d = './Initialization/%s/pop_%d_%d.csv' % (problem, num_p, n_corr)
+    ensure_dir(d)
+    pop_init = open(d, 'w')
+
+    d = './Initialization/%s/pop_ind_%d_%d.txt' % (problem, num_p, n_corr)
+    ensure_dir(d)
+    pop_inid = open(d, 'w')
+
     d = './Matrix/%s/' % (problem)
     ensure_dir(d)
 
@@ -319,6 +327,8 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         for ind, fit in zip(invalid_ind, fitnesses):
             funcEval.cont_evalp += 1
             ind.fitness.values = fit
+            pop_init.write('\n%s,%s' % (0, fit[0]))
+            pop_inid.write('\n%s;%s;%s' % (0, fit[0], ind))
 
     best_ind = best_pop(population)  # best individual of the population
     if funcEval.LS_flag:
@@ -504,6 +514,8 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 for ind, fit in zip(invalid_ind, fitnesses):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = fit
+                    if gen == 1:
+                        pop_init.write('\n%s,%s' % (gen, fit[0]))
 
             end_sp = time.time()
             time_specie.write('\n%s;%s;%s;%s' % (gen, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))
@@ -527,6 +539,9 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 for ind, fit in zip(invalid_ind, fitnesses):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = fit
+                    if gen == 1:
+                        pop_init.write('\n%s,%s' % (gen, fit[0]))
+                    pop_inid.write('\n%s;%s;%s' % (gen, fit[0], ind))
 
             orderbyfit = sorted(offspring, key=lambda ind: ind.fitness.values)
 
