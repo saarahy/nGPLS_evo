@@ -63,7 +63,7 @@ def initialize(config):
         a, b, init_pop = speciation_init(config, server, pop)
     else:
         sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None, "specie": 1} for ind in pop]
-        init_pop = {'sample_id': 'None', 'sample': sample}
+        init_pop = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
         a = 1
         b = 1
 
@@ -75,7 +75,7 @@ def speciation_init(config,server, pop):
     neat_h = 0.15
     num_Specie, specie_list = neatGPLS.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
-    evospace_sample = {'sample_id': 'None', 'sample': sample}
+    evospace_sample = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
     return num_Specie, specie_list, evospace_sample
 
 
@@ -233,8 +233,12 @@ def evolve(sample_num, config, toolbox, pset):
     putback =  time.time()
 
     best_ind = tools.selBest(pop, 1)[0]
-    sample = [{"specie":str(config["set_specie"]),"chromosome":str(best_ind),"id":None, "fitness":{"DefaultContext":[best_ind.fitness.values[0].item() if isinstance(best_ind.fitness.values[0], np.float64) else best_ind.fitness.values[0]]}, "params":str([x for x in best_ind.get_params()]) if funcEval.LS_flag else None }]
-    evospace_sample = {'sample_id': 'None', 'sample': sample}
+
+    sample = [{"specie": str(config["set_specie"]), "chromosome":str(ind), "id":None,
+               "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]},
+               "params":str([x for x in ind.get_params()]) if funcEval.LS_flag else None} for ind in pop]
+
+    evospace_sample = {'sample_id': 'None', 'sample_specie': str(config["set_specie"]), 'sample': sample}
 
     server.putZample(evospace_sample)
 

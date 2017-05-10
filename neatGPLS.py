@@ -322,6 +322,8 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         for ind, ls_fit in zip(invalid_ind, fitness_ls):
             funcEval.cont_evalp += 1
             ind.fitness.values = ls_fit
+            pop_init.write('\n%s,%s' % (0, ls_fit[0]))
+            pop_inid.write('\n%s;%s;%s' % (0, ls_fit[0], ind))
     else:
         fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
         for ind, fit in zip(invalid_ind, fitnesses):
@@ -509,13 +511,16 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 for ind, ls_fit in zip(invalid_ind, fitness_ls):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = ls_fit
+                    pop_init.write('\n%s,%s' % (gen, ls_fit[0]))
+                    pop_inid.write('\n%s;%s;%s' % (gen, ls_fit[0], ind))
             else:
                 fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
                 for ind, fit in zip(invalid_ind, fitnesses):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = fit
-                    if gen == 1:
-                        pop_init.write('\n%s,%s' % (gen, fit[0]))
+                    pop_init.write('\n%s,%s' % (gen, fit[0]))
+                    pop_inid.write('\n%s;%s;%s' % (gen, fit[0], ind))
+
 
             end_sp = time.time()
             time_specie.write('\n%s;%s;%s;%s' % (gen, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))
@@ -566,10 +571,10 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
         population[:] = offspring  # population update
 
-        specie_file.write('\n%s--------------------------------' % gen)
+
         if neat_alg:
             for ind in population:
-                specie_file.write('\n%s;%s;%s' % (ind.get_specie(), ind, version))
+                specie_file.write('\n%s;%s;%s;%s' % (gen,ind.get_specie(), ind, version))
         cond_ind = 0
         cont_better = 0
 
@@ -621,14 +626,11 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 funcEval.cont_evalp += 1
                 ind.fitness.values = ls_fit
             print ''
-
-            pop_file.write('\n----------------------------------------%s'%(gen))
             for ind in population:
-                pop_file.write('\n%s;%s;%s;%s'%(ind.LS_applied_get(),ind.fitness.values[0], ind, [x for x in ind.get_params()]))
+                pop_file.write('\n%s;%s;%s;%s;%s' % (gen, ind.fitness.values[0], ind.LS_applied_get(), ind, [x for x in ind.get_params()]))
         else:
-            pop_file.write('\n----------------------------------------')
             for ind in population:
-                pop_file.write('\n%s;%s;%s;%s;%s;%s'%(ind.LS_applied_get(),ind.LS_story_get(),ind.off_cx_get(),ind.off_mut_get(),ind.fitness.values[0], ind))
+                pop_file.write('\n%s; %s;%s;%s;%s;%s;%s' % (gen, ind.fitness.values[0], ind.LS_applied_get(),ind.LS_story_get(),ind.off_cx_get(),ind.off_mut_get(), ind))
 
         best_ind = best_pop(population)
         print 'best_: %s - - %s ' % ( best_ind, best_ind.fitness.values[0])

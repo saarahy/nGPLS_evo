@@ -7,23 +7,23 @@ def print_fit(population):
 
 
 def SpeciesPunishment(population,params,h):
-    salvar=params[0] #params.DontPenaliza
-    penalizar=params[1] #param.penalization_method
-    protect=params[2] #params.sharefitness
+    salvar = params[0] #params.DontPenaliza
+    penalizar = params[1] #param.penalization_method
+    protect = params[2] #params.sharefitness
 
     #Elegir el tipo de penalizacion
     for ind in population:
         if protect=='yes':
             if ind.get_specie()==None or ind.get_specie()==0:
-                specie_ind(population,ind,h)
+                specie_ind(population, ind, h)
                 ind.penalty(True)
                 ind.fitness_sharing(ind.fitness.values[0])
             #else:
-            if penalizar==1:
+            if penalizar == 1:
                 ind.fitness_sharing(ind.fitness.values)
-            if penalizar==2:
-                num_ind=get_specie_ind(ind,population)
-                adj_fit=ind.fitness.values[0] * int(num_ind)
+            if penalizar == 2:
+                num_ind = get_specie_ind(ind, population)
+                adj_fit = ind.fitness.values[0] * int(num_ind)
                 ind.fitness_sharing(adj_fit)
             ind.penalty(True)
         elif protect=='no':
