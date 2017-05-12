@@ -66,7 +66,8 @@ def initialize(config):
         init_pop = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
         a = 1
         b = 1
-
+    specielist = {'id': 'None', 'intra_distance': None,'flag_speciation': None}
+    server.putSpecie(specielist)
     server.putZample(init_pop)
     return a, b
 

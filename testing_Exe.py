@@ -1,2 +1,2 @@
-execfile('init_redis.py')
-#execfile('run.py')
+#execfile('init_redis.py')
+execfile('run.py')
