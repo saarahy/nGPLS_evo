@@ -771,6 +771,6 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
 
 def best_pop(population):
-    orderbyfit=list()
-    orderbyfit=sorted(population, key=lambda ind:ind.fitness.values)
+    orderbyfit = list()
+    orderbyfit = sorted(population, key=lambda ind:ind.fitness.values)
     return orderbyfit[0]

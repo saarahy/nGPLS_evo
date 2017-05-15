@@ -18,7 +18,7 @@ from conf_primitives import conf_sets
 
 #Imports de evospace
 import random, time
-#import evospace
+import evospace
 import xmlrpclib
 import jsonrpclib
 
@@ -56,7 +56,8 @@ def getToolBox(config, pset):
 def initialize(config):
     pset = conf_sets(config["num_var"])
     pop = getToolBox(config, pset).population(n=config["population_size"])
-    server = jsonrpclib.Server(config["server"])
+    #server = jsonrpclib.Server(config["server"])
+    server = evospace.Population()
     server.initialize()
     neat_alg = config["neat_alg"]
     if neat_alg:
@@ -66,9 +67,13 @@ def initialize(config):
         init_pop = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
         a = 1
         b = 1
-    specielist = {'id': 'None', 'intra_distance': None,'flag_speciation': None}
-    server.putSpecie(specielist)
-    server.putZample(init_pop)
+    specielist = {'id': None, 'intra_distance': '0.1','flag_speciation': 'False'}
+    #server.putSpecie(specielist)
+    #server.putZample(init_pop)
+
+    server.put_sample(init_pop)
+    # Ahora hay que hacerlo para todas las especies
+    server.put_specieinfo(specielist)
     return a, b
 
 
