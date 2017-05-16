@@ -218,7 +218,7 @@ def evolve(sample_num, config, toolbox, pset):
 
     SaveMatrix          = config["save_matrix"]
     GenMatrix           = config["gen_matrix"]
-    version=3
+    version             = 3
     testing             = True
 
     data_(n_corr, n_prob, problem, name_database, toolbox, config)
@@ -228,8 +228,8 @@ def evolve(sample_num, config, toolbox, pset):
 
     pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
-                                       n_corr, n_prob, params, direccion, problem, testing, version=version,
-                                       set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
+                                       n_corr, n_prob, params, direccion, problem, testing, version=version, benchmark_flag=False, beta= 0.5,
+                                       random_speciation=True, set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
 
     putback = time.time()
 

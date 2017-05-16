@@ -19,7 +19,7 @@ d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)
 best = open(d, 'a')
 
-specie = 3  # int(random.choice(b))
+specie = 10  # int(random.choice(b))
 config["set_specie"] = specie
 # config["neat_alg"] = False
 # for ci in range(1, 2):
@@ -34,6 +34,6 @@ if result:
     best.write('\n%s;%s;%s'% (ci, result[0][2], result[0][3]))
     print 'finished'
 
-config["n_corr"]=ci + 1
-with open("conf/conf.yaml", "w") as f:
-    yaml.dump(config, f)
+# config["n_corr"] = ci + 1
+# with open("conf/conf.yaml", "w") as f:
+#     yaml.dump(config, f)
