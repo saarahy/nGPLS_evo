@@ -11,14 +11,13 @@ from deap import base
 from deap import creator
 from deap import tools
 from deap import gp
-from speciation import getInd_perSpecie
+from speciation import calc_intracluster, intracluster
 import gp_conf as neat_gp
 from my_operators import safe_div, mylog, mypower2, mypower3, mysqrt, myexp
 from conf_primitives import conf_sets
 
 #Imports de evospace
 import random, time
-import evospace
 import xmlrpclib
 import jsonrpclib
 
@@ -56,28 +55,25 @@ def getToolBox(config, pset):
 def initialize(config):
     pset = conf_sets(config["num_var"])
     pop = getToolBox(config, pset).population(n=config["population_size"])
-    #server = jsonrpclib.Server(config["server"])
-    server = evospace.Population()
+    server = jsonrpclib.Server(config["server"])
     server.initialize()
     neat_alg = config["neat_alg"]
     if neat_alg:
         a, b, init_pop = speciation_init(config, server, pop)
+        list_spe = calc_intracluster(pop)
+        for elem in list_spe:
+            specielist = {'id': None, 'specie': str(elem[0]), 'intra_distance': str(elem[1]), 'flag_speciation': 'False'}
+            server.putSpecie(specielist)
     else:
         sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None, "specie": 1} for ind in pop]
         init_pop = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
         a = 1
         b = 1
-    specielist = {'id': None, 'intra_distance': '0.1','flag_speciation': 'False'}
-    #server.putSpecie(specielist)
-    #server.putZample(init_pop)
-
-    server.put_sample(init_pop)
-    # Ahora hay que hacerlo para todas las especies
-    server.put_specieinfo(specielist)
+    server.putZample(init_pop)
     return a, b
 
 
-def speciation_init(config,server, pop):
+def speciation_init(config, server, pop):
     neat_h = 0.15
     num_Specie, specie_list = neatGPLS.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
@@ -92,7 +88,7 @@ def speciation(config, pop_evo, pset):
     pop = [creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset)) for cs in
            evospace_sample['sample']]
     neat_h=0.15
-    num_Specie, specie_list = neatGPLS_evospace.evo_species(pop, neat_h)
+    num_Specie, specie_list = neatGPLS.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample': sample}
     server.putZample(evospace_sample)
@@ -191,11 +187,10 @@ def evolve(sample_num, config, toolbox, pset):
 
     name_database = config["db_name"]
     server = jsonrpclib.Server(config["server"])
-
     #evospace_sample = server.getSample(config["population_size"])
     evospace_sample = server.getSample_specie(config["set_specie"])
 
-    pop=[]
+    pop = []
     for cs in evospace_sample['sample']:
         i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
         if isinstance(cs['params'], list):
@@ -236,7 +231,20 @@ def evolve(sample_num, config, toolbox, pset):
                                        n_corr, n_prob, params, direccion, problem, testing, version=version,
                                        set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
 
-    putback =  time.time()
+    putback = time.time()
+
+    d_intraspecie = intracluster(pop)
+    d_intracluster = server.getIntraSpecie(config["set_specie"])
+    id_ = "specie:%s" % config["set_specie"]
+    if d_intraspecie > (1.5 * float(d_intracluster)):
+
+        specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intraspecie),
+                      'flag_speciation': 'True'}
+        server.putSpecie(specielist)
+    else:
+        specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intraspecie),
+                      'flag_speciation': 'False'}
+        server.putSpecie(specielist)
 
     best_ind = tools.selBest(pop, 1)[0]
 

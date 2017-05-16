@@ -16,7 +16,7 @@ from my_operators import avg_nodes
 from measure_tree import level_node, p_bin
 
 def evo_species(population, neat_h):
-    species(population, neat_h)
+    species(population, neat_h, version=3, beta=0.5)
     num_Species = count_species(population)
     specie_list = list_species(population)
     return num_Species, specie_list
@@ -290,7 +290,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 level_info = level_node(ind)
                 ind.nodefeat_set(level_info)
 
-        species(population, neat_h, version)
+        species(population, neat_h, version, beta=0.5)
 
         end_sp = time.time()
         time_specie.write('\n%s;%s;%s;%s' % (0, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))
@@ -495,7 +495,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                         level_info = level_node(ind)
                         ind.nodefeat_set(level_info)
 
-            specie_parents_child(parents, offspring, neat_h, version)
+            specie_parents_child(parents, offspring, neat_h, version, beta=0.5)
             offspring[:] = parents+offspring
 
             invalid_ind = [ind for ind in offspring]

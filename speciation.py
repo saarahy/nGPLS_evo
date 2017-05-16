@@ -168,10 +168,12 @@ def calc_intracluster(population):
     :param population: all the individuals
     """
     list_s = list_species(population)
+    l_sp = []
     for specie in list_s:
         list_ind = get_ind_specie(specie, population)
         if len(list_ind) >= 2:
-            intracluster(list_ind)
+            l_sp.append([specie, intracluster(list_ind)])
+    return l_sp
 
 
 def species_random(population, h, version, beta):
