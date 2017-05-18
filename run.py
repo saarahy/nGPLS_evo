@@ -19,7 +19,7 @@ d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)
 best = open(d, 'a')
 
-specie = 10  # int(random.choice(b))
+specie = 3  # int(random.choice(b))
 config["set_specie"] = specie
 # config["neat_alg"] = False
 # for ci in range(1, 2):

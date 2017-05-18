@@ -31,9 +31,9 @@ def getToolBox(config, pset):
     neat_cx = config["neat_cx"]
     # Attribute generator
     if neat_cx:
-        toolbox.register("expr", gp.genFull, pset=pset, min_=0, max_=3)
+        toolbox.register("expr", neat_gp.genFull, pset=pset, min_=0, max_=3)
     else:
-        toolbox.register("expr", gp.genHalfAndHalf, pset=pset, min_=0, max_=7)
+        toolbox.register("expr", neat_gp.genHalfAndHalf, pset=pset, min_=0, max_=7)
     # Structure initializers
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register("population", init_conf.initRepeat, list, toolbox.individual)
@@ -42,9 +42,9 @@ def getToolBox(config, pset):
     toolbox.register("select", tools.selTournament, tournsize=config["tournament_size"])
     toolbox.register("mate", neat_gp.cxSubtree)
     if neat_cx:
-        toolbox.register("expr_mut", gp.genFull, min_=0, max_=3)
+        toolbox.register("expr_mut", neat_gp.genFull, min_=0, max_=3)
     else:
-        toolbox.register("expr_mut", gp.genHalfAndHalf, min_=0, max_=7)
+        toolbox.register("expr_mut", neat_gp.genHalfAndHalf, min_=0, max_=7)
     toolbox.register("mutate", neat_gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
     toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
     toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))

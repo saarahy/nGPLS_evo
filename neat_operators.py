@@ -16,10 +16,10 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
         if eflag<pelit:
             ind1=copy_parent[0] #best ind in the population by fitness
         else:
-            ind1=random.choice(copy_parent)#random elitism
-        if mut==1 and random.random()<mutpb: #mutation
-            of=copy.deepcopy(ind1)
-            offspring=toolbox.mutate(of)
+            ind1 = random.choice(copy_parent)#random elitism
+        if mut == 1 and random.random() < mutpb: #mutation
+            of = copy.deepcopy(ind1)
+            offspring = toolbox.mutate(of)
             offspring[0].descendents(0)
             offspring[0].bestspecie_set(0)
             offspring[0].LS_applied_set(0)
