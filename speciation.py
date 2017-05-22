@@ -145,7 +145,7 @@ def intracluster(gpo_specie):
     for j_ind in range(0, len(gpo_specie)):
         list_d = []
         for e_ind in range(0, len(gpo_specie)):
-            if gpo_specie[j_ind] != gpo_specie[e_ind]:
+            if j_ind != e_ind:
                 if len(gpo_specie[j_ind]) == 1 and len(gpo_specie[e_ind]) == 1:
                     d = 0
                 else:

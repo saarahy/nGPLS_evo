@@ -15,6 +15,7 @@ from speciation import calc_intracluster, intracluster
 import gp_conf as neat_gp
 from my_operators import safe_div, mylog, mypower2, mypower3, mysqrt, myexp
 from conf_primitives import conf_sets
+#import evo_specie
 
 #Imports de evospace
 import random, time
@@ -62,7 +63,7 @@ def initialize(config):
         a, b, init_pop = speciation_init(config, server, pop)
         list_spe = calc_intracluster(pop)
         for elem in list_spe:
-            specielist = {'id': None, 'specie': str(elem[0]), 'intra_distance': str(elem[1]), 'flag_speciation': 'False'}
+            specielist = {'id': None, 'specie': str(elem[0]), 'intra_distance': str(elem[1]), 'flag_speciation': 'True'}
             server.putSpecie(specielist)
     else:
         sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None, "specie": 1} for ind in pop]
@@ -186,9 +187,21 @@ def evolve(sample_num, config, toolbox, pset):
     n_prob        = config["n_problem"]
 
     name_database = config["db_name"]
+    print config["set_specie"]
     server = jsonrpclib.Server(config["server"])
-    #evospace_sample = server.getSample(config["population_size"])
-    evospace_sample = server.getSample_specie(config["set_specie"])
+    # evospace_sample = server.getSample(config["population_size"])
+
+    if eval(server.getFreePopulation()):
+        if eval(server.getSpecieFree(config["set_specie"])):
+            evospace_sample = server.getSample_specie(config["set_specie"])
+            data_specie = {'id': config["set_specie"], 'b_key': 'False'}
+            server.setSpecieFree(data_specie)
+        else:
+            print 'choose another specie'
+            return []
+    else:
+        print 'Re-speciation proccess'
+        return []
 
     pop = []
     for cs in evospace_sample['sample']:
@@ -237,7 +250,6 @@ def evolve(sample_num, config, toolbox, pset):
     d_intracluster = server.getIntraSpecie(config["set_specie"])
     id_ = "specie:%s" % config["set_specie"]
     if d_intraspecie > (1.5 * float(d_intracluster)):
-
         specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intraspecie),
                       'flag_speciation': 'True'}
         server.putSpecie(specielist)
@@ -255,7 +267,9 @@ def evolve(sample_num, config, toolbox, pset):
     evospace_sample = {'sample_id': 'None', 'sample_specie': str(config["set_specie"]), 'sample': sample}
 
     server.putZample(evospace_sample)
-
+    data_specie = {'id': config["set_specie"], 'b_key': 'True'}
+    server.setSpecieFree(data_specie)
+    #evo_specie.counter()
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
                                          round(time.time() - putback, 2), best_ind]
@@ -272,6 +286,10 @@ def work(params):
     toolbox = getToolBox(config, pset)
     for sample_num in range(1, config["max_samples"]):
         gen_data = evolve(sample_num, config, toolbox, pset)
-        results.append([worker_id] + gen_data)
+        if gen_data == []:
+            print 'No-Evolution'
+            results = []
+        else:
+            results.append([worker_id] + gen_data)
     return results
 
