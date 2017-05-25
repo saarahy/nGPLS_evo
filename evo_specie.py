@@ -3,7 +3,6 @@ import gp_conf as neat_gp
 from deap import creator
 from speciation import calc_intracluster
 from conf_primitives import conf_sets
-import evoworker_gp
 import jsonrpclib
 import yaml
 
@@ -20,12 +19,12 @@ def check_(server, r, free_species):
         return True
 
 
-def counter():
+def counter(toolbox, pset):
     config = yaml.load(open("conf/conf.yaml"))
     num_var = config["num_var"]
-    pset = conf_sets(num_var)
+    #pset = conf_sets(num_var)
 
-    toolbox = evoworker_gp.getToolBox(config, pset)
+    # toolbox = evoworker_gp.getToolBox(config, pset)
     server = jsonrpclib.Server(config["server"])
 
     r = server.get_CounterSpecie()
@@ -60,10 +59,8 @@ def counter():
                 list_spe = calc_intracluster(pop)
                 for elem in list_spe:
                     specielist = {'id': None, 'specie': str(elem[0]), 'intra_distance': str(elem[1]),
-                                  'flag_speciation': 'False'}
+                                  'flag_speciation': 'False', 'sp_event': 'True'}
                     server.putSpecie(specielist)
                 server.putZample(init_pop)
             server.setFreePopulation('True')
             print 'ReSpeciacion- Done'
-
-counter()

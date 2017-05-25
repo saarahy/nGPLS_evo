@@ -295,26 +295,73 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
     if funcEval.LS_flag:
         for ind in population:
-            sizep = len(ind)+2
-            param_ones = np.ones(sizep)
-            param_ones[0] = 0
-            ind.params_set(param_ones)
+            if ind.get_params() is None:
+                sizep = len(ind)+2
+                param_ones = np.ones(sizep)
+                param_ones[0] = 0
+                ind.params_set(param_ones)
 
     # Evaluate the individuals with an invalid fitness
-    invalid_ind = [ind for ind in population if not ind.fitness.valid]
-    fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
-    for ind, fit in zip(invalid_ind, fitnesses):
-        funcEval.cont_evalp += 1
-        ind.fitness.values = fit
+    # invalid_ind = [ind for ind in population if not ind.fitness.valid]
+    # fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+    # for ind, fit in zip(invalid_ind, fitnesses):
+    #     funcEval.cont_evalp += 1
+    #     ind.fitness.values = fit
+    invalid_ind = [ind for ind in population]
+    if funcEval.LS_flag:
+        new_invalid_ind = []
+        for ind in invalid_ind:
+            strg = ind.__str__()
+            l_strg = add_subt(strg, ind)
+            c = tree2f()
+            cd = c.convert(l_strg)
+            new_invalid_ind.append(cd)
+        fitness_ls = toolbox.map(toolbox.evaluate, new_invalid_ind)
+        for ind, ls_fit in zip(invalid_ind, fitness_ls):
+            funcEval.cont_evalp += 1
+            ind.fitness.values = ls_fit
+    else:
+        fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
+        for ind, fit in zip(invalid_ind, fitnesses):
+            funcEval.cont_evalp += 1
+            ind.fitness.values = fit
 
     best_ind = best_pop(population)  # best individual of the population
-    if testing:
-        fitnesst_best = toolbox.map(toolbox.evaluate_test, [best_ind])
-        best_ind.fitness_test.values = fitnesst_best[0]
-    if testing:
-        best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness_test.values[0], best_ind.fitness.values[0], len(best_ind), avg_nodes(population)))
+
+    if funcEval.LS_flag:
+        strg = best_ind.__str__()
+        l_strg = add_subt(strg, best_ind)
+        c = tree2f()
+        cd = c.convert(l_strg)
+        new_invalid_ind.append(cd)
+        bestind.write('\n%s;%s;%s' % (0, best_ind.fitness.values[0], cd))
+        if testing:
+            fit_best = toolbox.map(toolbox.evaluate_test, [cd])
+            best_ind.fitness_test.values = fit_best[0]
+            best.write('\n%s;%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness.values[0], best_ind.LS_fitness_get(),
+            best_ind.fitness_test.values[0], len(best_ind), avg_nodes(population)))
+        else:
+            best.write('\n%s;%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness.values[0], best_ind.LS_fitness_get(),
+                None, len(best_ind), avg_nodes(population)))
     else:
-        best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, None, best_ind.fitness.values[0], len(best_ind), avg_nodes(population)))
+        if testing:
+            fitnesses_test = toolbox.map(toolbox.evaluate_test, [best_ind])
+            best_ind.fitness_test.values = fitnesses_test[0]
+            best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness_test.values[0], best_ind.fitness.values[0], len(best_ind),
+            avg_nodes(population)))
+        else:
+            best.write('\n%s;%s;%s;%s;%s;%s' % (
+                0, funcEval.cont_evalp, None, best_ind.fitness.values[0], len(best_ind),
+                avg_nodes(population)))
+
+
+    # if testing:
+    #     fitnesst_best = toolbox.map(toolbox.evaluate_test, [best_ind])
+    #     best_ind.fitness_test.values = fitnesst_best[0]
+    # if testing:
+    #     best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, best_ind.fitness_test.values[0], best_ind.fitness.values[0], len(best_ind), avg_nodes(population)))
+    # else:
+    #     best.write('\n%s;%s;%s;%s;%s;%s' % (0, funcEval.cont_evalp, None, best_ind.fitness.values[0], len(best_ind), avg_nodes(population)))
 
     data_pop = avg_nodes(population)
 

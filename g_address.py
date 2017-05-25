@@ -4,6 +4,8 @@ from conf_primitives import vector_benchmarks
 
 
 def get_address(p, n, problem, direccion, benchmark_flag):
+    p=1000
+    n=1
     flag = True
     try:
         direccion=direccion % (problem,p,n)
