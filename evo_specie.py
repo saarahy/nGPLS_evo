@@ -56,7 +56,7 @@ def counter(toolbox, pset):
     for i in range(1, int(r)+1):
         rs_flag.append(eval(server.getSpecieInfo(i)['flag_speciation']))
         rs_species.append(int(server.getSpecieInfo(i)['specie']))
-    if scheck_:  # if all species have the flag speciation in true
+    if scheck_(server, r):  # if all species have the flag speciation in true
         d = './ReSpeciacion/%s/rspecie_%d.txt' % (config["problem"], config["n_problem"])
         ensure_dir(d)
         best = open(d, 'a')
@@ -68,7 +68,7 @@ def counter(toolbox, pset):
             pop = []
             for sp in rs_species:
                 evospace_sample = server.getSample_specie(sp)
-                server.delSpecie(int(sp))
+                server.delSpecie(sp)
                 for cs in evospace_sample['sample']:
                     i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
                     if isinstance(cs['params'], list):
