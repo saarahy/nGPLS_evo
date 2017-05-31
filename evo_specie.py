@@ -77,7 +77,7 @@ def counter(toolbox, pset):
                         i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
                     i.specie(int(cs['specie']))
                     pop.append(i)
-            #server.initialize()
+            server.initialize()
             neat_alg = config["neat_alg"]
             if neat_alg:
                 a, b, init_pop = speciation_init(config, server, pop)
