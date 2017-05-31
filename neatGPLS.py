@@ -252,7 +252,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     begin=time.time()
 
     if SaveMatrix:  # Saving data in matrix
-        num_r = 11
+        num_r = 12
         num_r_sp=2
         if GenMatrix:
             num_salto=1
@@ -380,6 +380,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
         Matrix[idx, 8] = data_pop[2]  # min size
         Matrix[idx, 9] = ind.get_specie() # max number of species in the current population
         Matrix[idx, 10] = max(ind_specie(population), key=lambda x: x[0])[0]  # max number of species in the current population
+        Matrix[idx, 11] = funcEval.cont_evalp
 
         np.savetxt('./Matrix/%s/idx_%d_%d_%s.txt' % (problem,num_p, n_corr, set_specie), Matrix, delimiter=",", fmt="%s")
 
@@ -687,6 +688,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 if neat_alg:
                     Matrix[idx_aux, 9] = best_ind.get_specie()
                     Matrix[idx_aux, 10] = max(ind_specie(population), key=lambda x: x[0])[0]
+                Matrix[idx_aux, 11] = funcEval.cont_evalp
             else:
                 if funcEval.cont_evalp >= cont_evalf:
                     num_c -= 1
