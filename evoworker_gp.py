@@ -256,7 +256,7 @@ def evolve(sample_num, config, toolbox, pset):
                       'flag_speciation': 'True', 'sp_event': 'False'}
         server.putSpecie(specielist)
 
-    best_ind = tools.selBest(pop, 1)[0]
+    #
 
     sample = [{"specie": str(config["set_specie"]), "chromosome":str(ind), "id":None,
                "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]},
@@ -268,6 +268,7 @@ def evolve(sample_num, config, toolbox, pset):
     data_specie = {'id': config["set_specie"], 'b_key': 'True'}
     server.setSpecieFree(data_specie)
     evo_specie.counter(toolbox, pset)
+    best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
                                          round(time.time() - putback, 2), best_ind]

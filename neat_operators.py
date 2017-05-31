@@ -10,14 +10,14 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
     copy_parent=copy.deepcopy(parents)
 
     while i<n:
-        if n>len(copy_parent): #if the parent pool is less than the number of child
-            copy_parent[:]=copy.deepcopy(parents)
-        eflag=random.random()#int(round(random.random()))
+        if n > len(copy_parent):  # if the parent pool is less than the number of child
+            copy_parent[:] = copy.deepcopy(parents)
+        eflag = random.random()  # int(round(random.random()))
         if eflag<pelit:
-            ind1=copy_parent[0] #best ind in the population by fitness
+            ind1=copy_parent[0]  # best ind in the population by fitness
         else:
-            ind1 = random.choice(copy_parent)#random elitism
-        if mut == 1 and random.random() < mutpb: #mutation
+            ind1 = random.choice(copy_parent)  # random elitism
+        if mut == 1 and random.random() < mutpb:  # mutation
             of = copy.deepcopy(ind1)
             offspring = toolbox.mutate(of)
             offspring[0].descendents(0)
@@ -35,18 +35,18 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
                 break
 
             ind1.descendents(ind1.get_descendents()-1)
-        elif cx==1:
-            ind_nspecie=get_specie_ind(ind1,copy_parent)
+        elif cx == 1:
+            ind_nspecie = get_specie_ind(ind1,copy_parent)
             if ind_nspecie > 1 and eflag<pelit:
-                ind2=[]
+                ind2 = []
                 for q in range(len(copy_parent)):
                     if copy_parent[q].get_specie() == ind1.get_specie() and copy_parent[q]!=ind1:
                         ind2 = copy_parent[q]
                         break
-                if ind2==[]:
+                if ind2 == []:
                     try: #elitista
                         if eflag:
-                            ind2=elitism_choice(ind1, copy_parent)
+                            ind2 = elitism_choice(ind1, copy_parent)
                         else:
                             ind2 = random.choice(copy_parent)
                     except: #azar
@@ -81,7 +81,7 @@ def neatGP(toolbox, parents, cxpb, mutpb, n, mut, cx, pelit, neat_cx):
                     if copy_parent[xi] == ind2:
                         del copy_parent[xi]
                         break
-        if ind1.get_descendents()<=0:
+        if ind1.get_descendents() <= 0:
             for xi in range(len(copy_parent)):
                 if copy_parent[xi] == ind1:
                     del copy_parent[xi]

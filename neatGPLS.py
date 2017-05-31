@@ -499,11 +499,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
             else:
                 specie_parents_child(parents, offspring, neat_h, version, beta)
 
-            calc_intracluster(population)
             offspring[:] = parents + offspring
-
-            for ind in offspring:
-                specie_file.write('\n%s;%s;%s;%s' % (gen, ind.get_specie(), ind.get_intracluster(), ind))
 
             invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
             if funcEval.LS_flag:
@@ -523,6 +519,14 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
                 for ind, fit in zip(invalid_ind, fitnesses):
                     funcEval.cont_evalp += 1
                     ind.fitness.values = fit
+
+            if len(population) % 2 != 0:
+                temp_ = sorted(offspring, key=lambda ind: ind.fitness.values)
+                offspring = temp_[:len(population)]
+            calc_intracluster(offspring)
+
+            for ind in offspring:
+                specie_file.write('\n%s;%s;%s;%s' % (gen, ind.get_specie(), ind.get_intracluster(), ind))
 
             end_sp = time.time()
             time_specie.write('\n%s;%s;%s;%s' % (gen, begin_sp, end_sp, str(round(end_sp - begin_sp, 2))))

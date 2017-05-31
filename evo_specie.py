@@ -62,7 +62,7 @@ def counter(toolbox, pset):
         best = open(d, 'a')
         while flag_check:
             flag_check = check_(server, r, free_species)
-        if all(item2 is True for item2 in free_species):
+        if not flag_check:
             server.setFreePopulation('False')
             print 'ReSpeciacion'
             pop = []
