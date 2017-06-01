@@ -256,10 +256,10 @@ def evolve(sample_num, config, toolbox, pset):
                       'flag_speciation': 'True', 'sp_event': 'False'}
         server.putSpecie(specielist)
 
-    d = './Data/%s/dintra_%d_d%_%d.csv' % (problem, n_prob, n_corr, config["set_specie"])
+    d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob,  config["set_specie"])
     neatGPLS.ensure_dir(d)
     dintr = open(d, 'a')
-    dintr.write('\n%s,%s,%s' % (n_corr, d_intraspecie))
+    dintr.write('\n%s;%s' % (n_corr, d_intraspecie))
     #
 
     sample = [{"specie": str(config["set_specie"]), "chromosome":str(ind), "id":None,

@@ -6,7 +6,7 @@ import os
 import time
 from deap import tools
 from neat_operators import neatGP
-from speciation import ind_specie, species, specie_parents_child, count_species, list_species, species_random,specie_offspring_random, calc_intracluster
+from speciation import ind_specie, species, specie_parents_child, count_species, list_species, species_random,specie_offspring_random, calc_intracluster, intracluster
 from fitness_sharing import SpeciesPunishment
 from ParentSelection import p_selection
 from tree_subt import add_subt, add_subt_cf
@@ -246,6 +246,10 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     ensure_dir(d)
     bestind = open(d, 'w')
 
+    d = './Data/%s/popgen_intrac_%d_%d_%s.txt' % (problem, num_p, n_corr, set_specie)
+    ensure_dir(d)
+    pop_intra = open(d, 'a')
+
     d = './Matrix/%s/' % (problem)
     ensure_dir(d)
 
@@ -434,6 +438,9 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
     print 'Avg Nodes:', avg_nodes(population)
     print 'Evaluations: ', funcEval.cont_evalp
     end_t = time.time()
+
+    d_intraspecie = intracluster(population)
+    pop_intra.write('\n%s;%s;%s' % (0, set_specie,d_intraspecie))
 
     if SaveMatrix:
         idx = 0
@@ -673,6 +680,9 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
             print 'Test fitness:',best_ind.fitness_test.values[0]
         print 'Avg Nodes:', avg_nodes(population)
         print 'Evaluations: ', funcEval.cont_evalp
+
+        d_intraspecie = intracluster(population)
+        pop_intra.write('\n%s;%s;%s' % (gen, set_specie, d_intraspecie))
 
         if SaveMatrix:
             data_pop=avg_nodes(population)
