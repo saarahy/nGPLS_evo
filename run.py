@@ -15,7 +15,8 @@ params = [(i, config) for i in range(1)]
 
 num_p = config["n_problem"]
 problem = config["problem"]
-specie = 7
+specie = 2
+
 
 d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)

@@ -7,7 +7,7 @@ ls_select: 8
 max_samples: 10
 mutpb: 0.1
 n_corr: 1
-n_problem: 4010
+n_problem: 7010
 neat_alg: true
 neat_cx: false
 neat_h: 0.15
@@ -16,11 +16,13 @@ num_salto: 1
 num_var: 13
 params: [best_of_each_specie, 2, 'yes']
 population_size: 100
+porcentage: 50
+porcentage_flag: false
 problem: Housing
 run_begin: 1
 run_end: 2
 save_matrix: true
 server: https://blooming-inlet-88795.herokuapp.com/
-set_specie: 11
+set_specie: 2
 tournament_size: 7
 worker_generations: 30

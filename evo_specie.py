@@ -58,8 +58,8 @@ def counter(toolbox, pset):
     # toolbox = evoworker_gp.getToolBox(config, pset)
     server = jsonrpclib.Server(config["server"])
     free_pop = eval(server.getFreePopulation())
-    if free_pop and contSpecie.cont_specie==0:
-        contSpecie.cont_specie=contSpecie.cont_specie+1
+    if free_pop and contSpecie.cont_specie == 0:
+        contSpecie.cont_specie = contSpecie.cont_specie+1
         r = server.get_CounterSpecie()
         free_species = []  # List of free species
         flag_check = True
@@ -79,7 +79,6 @@ def counter(toolbox, pset):
                 pop = []
                 for sp in rs_species:
                     evospace_sample = server.getSample_specie(sp)
-                    #server.delSpecie(sp)
                     for cs in evospace_sample['sample']:
                         i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
                         if isinstance(cs['params'], list):
