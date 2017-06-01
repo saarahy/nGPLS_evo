@@ -49,6 +49,9 @@ def speciation_init(config, server, pop):
     return num_Specie, specie_list, evospace_sample
 
 
+global freepop_
+freepop_ = True
+
 def counter(toolbox, pset):
 
     config = yaml.load(open("conf/conf.yaml"))
@@ -58,17 +61,22 @@ def counter(toolbox, pset):
     # toolbox = evoworker_gp.getToolBox(config, pset)
     server = jsonrpclib.Server(config["server"])
     free_pop = eval(server.getFreePopulation())
+    freepop_ = free_pop
+    print free_pop
+    print contSpecie.cont_specie
     if free_pop and contSpecie.cont_specie == 0:
         contSpecie.cont_specie = contSpecie.cont_specie+1
         r = server.get_CounterSpecie()
-        free_species = []  # List of free species
-        flag_check = True
-        rs_flag = []  # List of flags about re - speciation
-        rs_species = []  # List of species
-        for i in range(1, int(r)+1):
-            rs_flag.append(eval(server.getSpecieInfo(i)['flag_speciation']))
-            rs_species.append(int(server.getSpecieInfo(i)['specie']))
-        if scheck_(server, r, config["porcentage_flag"], config["porcentage"]):  # if all species have the flag speciation in true
+        if scheck_(server, r, config["porcentage_flag"], config["porcentage"]):
+            freepop_ = False
+            print "speciation-required"
+            free_species = []  # List of free species
+            flag_check = True
+            rs_species = []  # List of species
+            print contSpecie.freepop_
+              # if a specie have the t-flag speciation
+            for i in range(1, int(r) + 1):
+                rs_species.append(int(server.getSpecieInfo(i)['specie']))
             d = './ReSpeciacion/%s/rspecie_%d.txt' % (config["problem"], config["n_problem"])
             ensure_dir(d)
             best = open(d, 'a')
@@ -99,10 +107,17 @@ def counter(toolbox, pset):
                         server.putSpecie(specielist)
                     server.putZample(init_pop)
                 server.setFreePopulation('True')
+                freepop_ = True
+                print contSpecie.freepop_
                 print 'ReSpeciacion- Done'
-                contSpecie.cont_specie = 0
                 best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
+        contSpecie.cont_specie = 0
     else:
-        while free_pop == False:
-            free_pop = eval(server.getFreePopulation())
-            time.sleep(5)
+        while free_pop is False:
+            print "still waiting", free_pop, freepop_
+            try:
+                time.sleep(1)
+                free_pop = eval(server.getFreePopulation())
+            except TypeError:
+                time.sleep(5)
+                free_pop = eval(server.getFreePopulation())

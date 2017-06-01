@@ -58,6 +58,7 @@ def initialize(config):
     pop = getToolBox(config, pset).population(n=config["population_size"])
     server = jsonrpclib.Server(config["server"])
     server.initialize()
+    server.setFreePopulation('True')
     neat_alg = config["neat_alg"]
     if neat_alg:
         a, b, init_pop = speciation_init(config, server, pop)
@@ -250,16 +251,15 @@ def evolve(sample_num, config, toolbox, pset):
 
     d_intraspecie = intracluster(pop)
     d_intracluster = server.getIntraSpecie(config["set_specie"])
+    resp_flag = 0
     id_ = "specie:%s" % config["set_specie"]
     if d_intraspecie > (1.5 * float(d_intracluster)):
-        specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intraspecie),
+        specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intracluster),
                       'flag_speciation': 'True', 'sp_event': 'False'}
         server.putSpecie(specielist)
+        resp_flag = 1
 
-    d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob,  config["set_specie"])
-    neatGPLS.ensure_dir(d)
-    dintr = open(d, 'a')
-    dintr.write('\n%s;%s' % (n_corr, d_intraspecie))
+
     #
 
     sample = [{"specie": str(config["set_specie"]), "chromosome":str(ind), "id":None,
@@ -271,7 +271,14 @@ def evolve(sample_num, config, toolbox, pset):
     server.putZample(evospace_sample)
     data_specie = {'id': config["set_specie"], 'b_key': 'True'}
     server.setSpecieFree(data_specie)
+
     evo_specie.counter(toolbox, pset)
+
+    d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob, config["set_specie"])
+    neatGPLS.ensure_dir(d)
+    dintr = open(d, 'a')
+    dintr.write('\n%s;%s;%s' % (n_corr, d_intraspecie, resp_flag))
+
     best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
