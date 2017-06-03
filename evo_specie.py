@@ -49,32 +49,24 @@ def speciation_init(config, server, pop):
     return num_Specie, specie_list, evospace_sample
 
 
-global freepop_
-freepop_ = True
-
 def counter(toolbox, pset):
-
+    print 'Counter'
     config = yaml.load(open("conf/conf.yaml"))
     num_var = config["num_var"]
     #pset = conf_sets(num_var)
-
     # toolbox = evoworker_gp.getToolBox(config, pset)
     server = jsonrpclib.Server(config["server"])
     free_pop = eval(server.getFreePopulation())
-    freepop_ = free_pop
-    print free_pop
-    print contSpecie.cont_specie
-    if free_pop and contSpecie.cont_specie == 0:
-        contSpecie.cont_specie = contSpecie.cont_specie+1
+    free_file = eval(server.getFreeFile())
+    if free_pop and free_file:
+        print 'Free and Free'
+        server.setFreeFile('False')
         r = server.get_CounterSpecie()
         if scheck_(server, r, config["porcentage_flag"], config["porcentage"]):
-            freepop_ = False
             print "speciation-required"
             free_species = []  # List of free species
             flag_check = True
             rs_species = []  # List of species
-            print contSpecie.freepop_
-              # if a specie have the t-flag speciation
             for i in range(1, int(r) + 1):
                 rs_species.append(int(server.getSpecieInfo(i)['specie']))
             d = './ReSpeciacion/%s/rspecie_%d.txt' % (config["problem"], config["n_problem"])
@@ -107,14 +99,20 @@ def counter(toolbox, pset):
                         server.putSpecie(specielist)
                     server.putZample(init_pop)
                 server.setFreePopulation('True')
-                freepop_ = True
-                print contSpecie.freepop_
                 print 'ReSpeciacion- Done'
                 best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
+        server.setFreeFile('True')
         contSpecie.cont_specie = 0
     else:
+        print 'No Free'
+        if free_pop and free_file is False:
+            while free_file is False:
+                print "waiting"
+                time.sleep(5)
+                free_file = eval(server.getFreeFile())
+        free_pop = eval(server.getFreePopulation())
         while free_pop is False:
-            print "still waiting", free_pop, freepop_
+            print "still waiting", free_pop
             try:
                 time.sleep(1)
                 free_pop = eval(server.getFreePopulation())

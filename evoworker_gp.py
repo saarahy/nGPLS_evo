@@ -253,6 +253,7 @@ def evolve(sample_num, config, toolbox, pset):
     d_intracluster = server.getIntraSpecie(config["set_specie"])
     resp_flag = 0
     id_ = "specie:%s" % config["set_specie"]
+    print 'calculation intra-cluster'
     if d_intraspecie > (1.5 * float(d_intracluster)):
         specielist = {'id': id_, 'specie': config["set_specie"], 'intra_distance': str(d_intracluster),
                       'flag_speciation': 'True', 'sp_event': 'False'}
@@ -271,9 +272,9 @@ def evolve(sample_num, config, toolbox, pset):
     server.putZample(evospace_sample)
     data_specie = {'id': config["set_specie"], 'b_key': 'True'}
     server.setSpecieFree(data_specie)
-
+    print 'Going to counter'
     evo_specie.counter(toolbox, pset)
-
+    print 'Ending to counter'
     d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob, config["set_specie"])
     neatGPLS.ensure_dir(d)
     dintr = open(d, 'a')
