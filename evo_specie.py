@@ -51,10 +51,8 @@ def speciation_init(config, server, pop):
 
 def counter(toolbox, pset):
     print 'Counter'
+    re_sp = 0
     config = yaml.load(open("conf/conf.yaml"))
-    num_var = config["num_var"]
-    #pset = conf_sets(num_var)
-    # toolbox = evoworker_gp.getToolBox(config, pset)
     server = jsonrpclib.Server(config["server"])
     free_pop = eval(server.getFreePopulation())
     free_file = eval(server.getFreeFile())
@@ -100,9 +98,11 @@ def counter(toolbox, pset):
                     server.putZample(init_pop)
                 server.setFreePopulation('True')
                 print 'ReSpeciacion- Done'
+                re_sp = 1
                 best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
         server.setFreeFile('True')
         contSpecie.cont_specie = 0
+        return re_sp
     else:
         print 'No Free'
         if free_pop and free_file is False:
@@ -110,8 +110,10 @@ def counter(toolbox, pset):
                 print "waiting"
                 time.sleep(5)
                 free_file = eval(server.getFreeFile())
+        re_sp = 0
         free_pop = eval(server.getFreePopulation())
         while free_pop is False:
+            re_sp = 1
             print "still waiting", free_pop
             try:
                 time.sleep(1)
@@ -119,3 +121,4 @@ def counter(toolbox, pset):
             except TypeError:
                 time.sleep(5)
                 free_pop = eval(server.getFreePopulation())
+        return re_sp

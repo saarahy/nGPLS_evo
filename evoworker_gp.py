@@ -7,6 +7,7 @@ import neatGPLS
 #import neatGPLS_evospace
 import init_conf
 import os.path
+import datetime
 from deap import base
 from deap import creator
 from deap import tools
@@ -203,8 +204,17 @@ def evolve(sample_num, config, toolbox, pset):
             print 'choose another specie'
             return []
     else:
-        print 'Re-speciation proccess'
-        return []
+        print 'Re-speciation process'
+        while eval(server.getFreePopulation()) is False:
+            time.sleep(5)
+            print 'waiting process'
+        if eval(server.getSpecieFree(config["set_specie"])):
+            evospace_sample = server.getSample_specie(config["set_specie"])
+            data_specie = {'id': config["set_specie"], 'b_key': 'False'}
+            server.setSpecieFree(data_specie)
+        else:
+            print 'choose another specie'
+            return []
 
     pop = []
     for cs in evospace_sample['sample']:
@@ -273,12 +283,12 @@ def evolve(sample_num, config, toolbox, pset):
     data_specie = {'id': config["set_specie"], 'b_key': 'True'}
     server.setSpecieFree(data_specie)
     print 'Going to counter'
-    evo_specie.counter(toolbox, pset)
+    re_sp = evo_specie.counter(toolbox, pset)
     print 'Ending to counter'
     d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob, config["set_specie"])
     neatGPLS.ensure_dir(d)
     dintr = open(d, 'a')
-    dintr.write('\n%s;%s;%s' % (n_corr, d_intraspecie, resp_flag))
+    dintr.write('\n%s;%s;%s;%s' % (n_corr, d_intraspecie, resp_flag, re_sp))
 
     best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
