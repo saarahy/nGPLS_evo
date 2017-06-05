@@ -100,6 +100,7 @@ def counter(toolbox, pset):
                 print 'ReSpeciacion- Done'
                 re_sp = 1
                 best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
+        server.setFreePopulation('True')
         server.setFreeFile('True')
         contSpecie.cont_specie = 0
         return re_sp
