@@ -7,6 +7,7 @@ import neatGPLS
 #import neatGPLS_evospace
 import init_conf
 import os.path
+import copy
 import datetime
 from deap import base
 from deap import creator
@@ -111,9 +112,10 @@ def get_Speciedata(config):
 
 
 def evalSymbReg(individual, points, toolbox, config):
+    points.flags['WRITEABLE'] = False
     func = toolbox.compile(expr=individual)
-    vector = points[config["num_var"]]
-    data_x = np.asarray(points)[:config["num_var"]]
+    vector = copy.deepcopy(points[config["num_var"]])
+    data_x = copy.deepcopy(np.asarray(points)[:config["num_var"]])
     vector_x = func(*data_x)
     with np.errstate(divide='ignore', invalid='ignore'):
         if isinstance(vector_x, np.ndarray):
@@ -305,7 +307,7 @@ def work(params):
     results = []
     pset = conf_sets(num_var)
     toolbox = getToolBox(config, pset)
-    for sample_num in range(1, config["max_samples"]+1):
+    for sample_num in range(4, config["max_samples"]+1):
         print  'sample: ', sample_num
         gen_data = evolve(sample_num, config, toolbox, pset)
         if gen_data == []:

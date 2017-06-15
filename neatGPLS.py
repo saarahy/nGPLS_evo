@@ -508,7 +508,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
             offspring[:] = parents + offspring
 
-            invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
+            invalid_ind = [ind for ind in offspring]
             if funcEval.LS_flag:
                 new_invalid_ind = []
                 for ind in invalid_ind:

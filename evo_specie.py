@@ -85,6 +85,7 @@ def counter(toolbox, pset):
                             i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
                         i.specie(int(cs['specie']))
                         pop.append(i)
+                print 'Flush population'
                 server.flushPopulation()
                 server.initialize()
                 neat_alg = config["neat_alg"]
@@ -110,7 +111,10 @@ def counter(toolbox, pset):
             while free_file is False:
                 print "waiting"
                 time.sleep(5)
-                free_file = eval(server.getFreeFile())
+                try:
+                    free_file = eval(server.getFreeFile())
+                except TypeError:
+                    free_file = False
         re_sp = 0
         free_pop = eval(server.getFreePopulation())
         while free_pop is False:
