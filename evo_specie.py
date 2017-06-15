@@ -74,6 +74,7 @@ def counter(toolbox, pset):
                 flag_check = check_(server, r, free_species)
             if not flag_check:
                 print 'ReSpeciacion'
+                sp_init = datetime.datetime.now()
                 pop = []
                 for sp in rs_species:
                     evospace_sample = server.getSample_specie(sp)
@@ -100,7 +101,7 @@ def counter(toolbox, pset):
                 server.setFreePopulation('True')
                 print 'ReSpeciacion- Done'
                 re_sp = 1
-                best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
+                best.write('\n%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop)))
         server.setFreePopulation('True')
         server.setFreeFile('True')
         contSpecie.cont_specie = 0
