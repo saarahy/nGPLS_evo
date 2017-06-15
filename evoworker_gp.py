@@ -8,6 +8,7 @@ import neatGPLS
 import init_conf
 import os.path
 import datetime
+import copy
 from deap import base
 from deap import creator
 from deap import tools
@@ -111,9 +112,10 @@ def get_Speciedata(config):
 
 
 def evalSymbReg(individual, points, toolbox, config):
+    points.flags['WRITEABLE'] = False
     func = toolbox.compile(expr=individual)
-    vector = points[config["num_var"]]
-    data_x = np.asarray(points)[:config["num_var"]]
+    vector = copy.deepcopy(points[config["num_var"]])
+    data_x = copy.deepcopy(np.asarray(points)[:config["num_var"]])
     vector_x = func(*data_x)
     with np.errstate(divide='ignore', invalid='ignore'):
         if isinstance(vector_x, np.ndarray):
@@ -293,7 +295,7 @@ def evolve(sample_num, config, toolbox, pset):
     best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
-                                         round(time.time() - putback, 2), best_ind]
+                                         round(time.time() - putback, 2), best_ind], len(pop), resp_flag, re_sp
     return best
 
 
@@ -305,9 +307,22 @@ def work(params):
     results = []
     pset = conf_sets(num_var)
     toolbox = getToolBox(config, pset)
+
+    d = './ReSpeciation/%s/time_%d_%d.txt' % (config["problem"], config["n_problem"],config["set_specie"])
+    neatGPLS.ensure_dir(d)
+    time_r = open(d, 'a')
+
     for sample_num in range(1, config["max_samples"]+1):
         print  'sample: ', sample_num
-        gen_data = evolve(sample_num, config, toolbox, pset)
+
+        d_intracluster = server.getIntraSpecie(config["set_specie"])
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, 'NA', 'NA','NA'))
+
+        gen_data, len_pop, flag_, resp_ = evolve(sample_num, config, toolbox, pset)
+
+        d_intracluster = server.getIntraSpecie(config["set_specie"])
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_))
+
         if gen_data == []:
             print 'No-Evolution'
             results = []

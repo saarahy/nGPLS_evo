@@ -74,6 +74,7 @@ def counter(toolbox, pset):
                 flag_check = check_(server, r, free_species)
             if not flag_check:
                 print 'ReSpeciacion'
+                sp_init = datetime.datetime.now()
                 pop = []
                 for sp in rs_species:
                     evospace_sample = server.getSample_specie(sp)
@@ -85,6 +86,7 @@ def counter(toolbox, pset):
                             i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
                         i.specie(int(cs['specie']))
                         pop.append(i)
+                print 'Flush population'
                 server.flushPopulation()
                 server.initialize()
                 neat_alg = config["neat_alg"]
@@ -99,7 +101,7 @@ def counter(toolbox, pset):
                 server.setFreePopulation('True')
                 print 'ReSpeciacion- Done'
                 re_sp = 1
-                best.write('\n%s;%s' % (str(datetime.datetime.now()), len(pop)))
+                best.write('\n%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop)))
         server.setFreePopulation('True')
         server.setFreeFile('True')
         contSpecie.cont_specie = 0
@@ -110,7 +112,10 @@ def counter(toolbox, pset):
             while free_file is False:
                 print "waiting"
                 time.sleep(5)
-                free_file = eval(server.getFreeFile())
+                try:
+                    free_file = eval(server.getFreeFile())
+                except TypeError:
+                    free_file = False
         re_sp = 0
         free_pop = eval(server.getFreePopulation())
         while free_pop is False:
