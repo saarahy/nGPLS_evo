@@ -207,9 +207,15 @@ def evolve(sample_num, config, toolbox, pset):
             return []
     else:
         print 'Re-speciation process'
-        while eval(server.getFreePopulation()) is False:
-            time.sleep(5)
-            print 'waiting process'
+        try:
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
+        except TypeError:
+            time.sleep(10)
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
         if eval(server.getSpecieFree(config["set_specie"])):
             evospace_sample = server.getSample_specie(config["set_specie"])
             data_specie = {'id': config["set_specie"], 'b_key': 'False'}

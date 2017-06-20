@@ -7,7 +7,7 @@ ls_select: 8
 max_samples: 10
 mutpb: 0.1
 n_corr: 1
-n_problem: 106
+n_problem: 124
 neat_alg: true
 neat_cx: false
 neat_h: 0.15
@@ -22,7 +22,7 @@ problem: Housing
 run_begin: 1
 run_end: 2
 save_matrix: true
-server: https://blooming-inlet-88795.herokuapp.com/
-set_specie: 10
+server: https://stormy-waters-38139.herokuapp.com/
+set_specie: 7
 tournament_size: 7
 worker_generations: 30
