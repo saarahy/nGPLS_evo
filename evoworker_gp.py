@@ -207,9 +207,15 @@ def evolve(sample_num, config, toolbox, pset):
             return []
     else:
         print 'Re-speciation process'
-        while eval(server.getFreePopulation()) is False:
-            time.sleep(5)
-            print 'waiting process'
+        try:
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
+        except TypeError:
+            time.sleep(10)
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
         if eval(server.getSpecieFree(config["set_specie"])):
             evospace_sample = server.getSample_specie(config["set_specie"])
             data_specie = {'id': config["set_specie"], 'b_key': 'False'}
@@ -254,7 +260,7 @@ def evolve(sample_num, config, toolbox, pset):
     begin =time.time()
     print "inicio del proceso"
 
-    pop, log = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
+    pop, log, funcEval_ = neatGPLS.neat_GP_LS(pop, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h, neat_pelit,
                                        funcEval.LS_flag, LS_select, cont_evalf, num_salto, SaveMatrix, GenMatrix, pset,
                                        n_corr, n_prob, params, direccion, problem, testing, version=version, benchmark_flag=False, beta= 0.5,
                                        random_speciation=True, set_specie=config["set_specie"], stats=None, halloffame=None, verbose=True)
@@ -295,7 +301,7 @@ def evolve(sample_num, config, toolbox, pset):
     best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
-                                         round(time.time() - putback, 2), best_ind], len(pop), resp_flag, re_sp
+                                         round(time.time() - putback, 2), best_ind], len(pop), resp_flag, re_sp, funcEval_
     return best
 
 
@@ -316,12 +322,12 @@ def work(params):
         print  'sample: ', sample_num
 
         d_intracluster = server.getIntraSpecie(config["set_specie"])
-        time_r.write('\n%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, 'NA', 'NA','NA'))
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, 'NA', 'NA','NA', funcEval.cont_evalp))
 
-        gen_data, len_pop, flag_, resp_ = evolve(sample_num, config, toolbox, pset)
+        gen_data, len_pop, flag_, resp_, fEval_ = evolve(sample_num, config, toolbox, pset)
 
         d_intracluster = server.getIntraSpecie(config["set_specie"])
-        time_r.write('\n%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_))
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s:%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_, fEval_))
 
         if gen_data == []:
             print 'No-Evolution'
