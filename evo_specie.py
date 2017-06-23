@@ -56,6 +56,7 @@ def counter(toolbox, pset):
     server = jsonrpclib.Server(config["server"])
     free_pop = eval(server.getFreePopulation())
     free_file = eval(server.getFreeFile())
+    print free_file, free_pop
     if free_pop and free_file:
         print 'Free and Free'
         server.setFreeFile('False')
