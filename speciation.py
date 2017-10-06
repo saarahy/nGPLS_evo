@@ -149,12 +149,12 @@ def intracluster(gpo_specie):
                 if len(gpo_specie[j_ind]) == 1 and len(gpo_specie[e_ind]) == 1:
                     d = 0
                 else:
-                    d = distance(gpo_specie[j_ind], gpo_specie[e_ind], version = 3, beta = 0.5)
+                    d = distance(gpo_specie[j_ind], gpo_specie[e_ind], version=3, beta=0.5)
                 list_d.append(d)
         try:
             list_distance.append(min(list_d))
         except ValueError:
-            print list_distance
+            print 'intra', list_distance
     avg_distance = average(list_distance)
     for ind in gpo_specie:
         ind.set_intracluster(avg_distance)
@@ -164,7 +164,7 @@ def intracluster(gpo_specie):
 def calc_intracluster(population):
     """
     Upgrade: May 11th
-    This method calculates the intracluster distance in each specie. 
+    This method calculates the intracluster distance in each specie.
     :param population: all the individuals
     """
     list_s = list_species(population)
@@ -174,6 +174,8 @@ def calc_intracluster(population):
         if len(list_ind) >= 2:
             l_sp.append([specie, intracluster(list_ind)])
         else:
+            for ind_j in list_ind:
+                ind_j.set_intracluster(0.0)
             l_sp.append([specie, 0.0])
     return l_sp
 
@@ -333,8 +335,19 @@ def specie_offspring_random(parents, offspring, h, version, beta):
                             ind.specie(r_ind.get_specie())
                             break
                     if ind.get_specie() is None:
-                        ind.specie(n_esp+1)
-                        n_esp += 1
+                        off_specie = list_species(offspring)
+                        if off_specie:
+                            new_species = list(set(off_specie) - set(list_s))
+                            if new_species:
+                                for specie in new_species:
+                                    list_ind = get_ind_specie(specie, offspring)
+                                    r_ind = choice(list_ind)
+                                    if distance(ind, r_ind, version, beta) <= h:
+                                        ind.specie(r_ind.get_specie())
+                                        break
+                        if ind.get_specie() is None:
+                            ind.specie(n_esp+1)
+                            n_esp += 1
     else:
         print ("Error en las especies de los padres/descencientes")
     return offspring
