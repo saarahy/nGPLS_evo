@@ -7,22 +7,22 @@ ls_select: 8
 max_samples: 10
 mutpb: 0.1
 n_corr: 1
-n_problem: 129
+n_problem: 130
 neat_alg: true
 neat_cx: false
-neat_h: 0.15
+neat_h: 0.60
 neat_pelit: 0.5
 num_salto: 1
 num_var: 13
 params: [best_of_each_specie, 2, 'yes']
 population_size: 100
 porcentage: 50
-porcentage_flag: false
+porcentage_flag: true
 problem: Housing
 run_begin: 1
 run_end: 2
 save_matrix: true
 server: https://stormy-waters-38139.herokuapp.com/
-set_specie: 11
+set_specie: 1
 tournament_size: 7
-worker_generations: 30
+worker_generations: 15

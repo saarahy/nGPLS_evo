@@ -327,7 +327,7 @@ def work(params):
         gen_data, len_pop, flag_, resp_, fEval_ = evolve(sample_num, config, toolbox, pset)
 
         d_intracluster = server.getIntraSpecie(config["set_specie"])
-        time_r.write('\n%s;%s;%s;%s;%s;%s;%s:%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_, fEval_))
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_, fEval_))
 
         if gen_data == []:
             print 'No-Evolution'
