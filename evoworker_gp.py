@@ -105,7 +105,7 @@ def get_Speciedata(config):
     # if evospace_sample['sample'][00]['specie'] == None:
     #     num_Specie, specie_list = speciation(config, evospace_sample)
     # else:
-    a=server.getSpecie()
+    a = server.getSpecie()
     specie_list=map(int, a)
     num_Specie=max(specie_list)
     return num_Specie, specie_list
@@ -183,6 +183,34 @@ def data_(n_corr, p, problem, name_database,toolbox, config):
     toolbox.register("evaluate", evalSymbReg, points=data_train, toolbox=toolbox, config = config)
     toolbox.register("evaluate_test", evalSymbReg, points=data_test, toolbox=toolbox, config = config)
 
+def check_specie(server, especie):
+    if eval(server.getFreePopulation()):
+        if eval(server.getSpecieFree(especie)):
+            evospace_sample = server.getSample_specie(especie)
+            data_specie = {'id': especie, 'b_key': 'False'}
+            server.setSpecieFree(data_specie)
+        else:
+            print 'choose another specie - 1'
+            return []
+    else:
+        print 'Re-speciation process'
+        try:
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
+        except TypeError:
+            time.sleep(10)
+            while eval(server.getFreePopulation()) is False:
+                time.sleep(5)
+                print 'waiting process'
+        if eval(server.getSpecieFree(especie)):
+            evospace_sample = server.getSample_specie(especie)
+            data_specie = {'id': especie, 'b_key': 'False'}
+            server.setSpecieFree(data_specie)
+        else:
+            print 'choose another specie - 2'
+            return []
+    return evospace_sample
 
 def evolve(sample_num, config, toolbox, pset):
 
@@ -197,32 +225,11 @@ def evolve(sample_num, config, toolbox, pset):
     server = jsonrpclib.Server(config["server"])
     # evospace_sample = server.getSample(config["population_size"])
 
-    if eval(server.getFreePopulation()):
-        if eval(server.getSpecieFree(config["set_specie"])):
-            evospace_sample = server.getSample_specie(config["set_specie"])
-            data_specie = {'id': config["set_specie"], 'b_key': 'False'}
-            server.setSpecieFree(data_specie)
-        else:
-            print 'choose another specie'
-            return []
-    else:
-        print 'Re-speciation process'
-        try:
-            while eval(server.getFreePopulation()) is False:
-                time.sleep(5)
-                print 'waiting process'
-        except TypeError:
-            time.sleep(10)
-            while eval(server.getFreePopulation()) is False:
-                time.sleep(5)
-                print 'waiting process'
-        if eval(server.getSpecieFree(config["set_specie"])):
-            evospace_sample = server.getSample_specie(config["set_specie"])
-            data_specie = {'id': config["set_specie"], 'b_key': 'False'}
-            server.setSpecieFree(data_specie)
-        else:
-            print 'choose another specie'
-            return []
+    print("check specie - 1")
+    evospace_sample = check_specie(server, config["set_specie"])
+    if evospace_sample == []:
+        while evospace_sample == []:
+            evospace_sample = check_specie(server, config["set_specie"])
 
     pop = []
     for cs in evospace_sample['sample']:
@@ -230,10 +237,38 @@ def evolve(sample_num, config, toolbox, pset):
         if isinstance(cs['params'], list):
             i.params_set(np.asarray(cs['params']))
         elif isinstance(cs['params'], unicode):
-            i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
+            i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('f[]').split(',')]))
         i.specie(int(cs['specie']))
         pop.append(i)
 
+
+
+    if len(pop) < 2:
+        a = server.getSpecie()
+        aux_specie=random.choice(a)
+        print("check specie - 2 - %d" % aux_specie)
+        evospace_sample2 = check_specie(server, aux_specie)
+        if evospace_sample2 == []:
+            while evospace_sample2 == []:
+                aux_specie = random.choice(a)
+                evospace_sample2 = check_specie(server, aux_specie)
+
+        for cs in evospace_sample2['sample']:
+            i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
+            if isinstance(cs['params'], list):
+                i.params_set(np.asarray(cs['params']))
+            elif isinstance(cs['params'], unicode):
+                i.params_set(np.asarray([float(elem) for elem in cs['params'].strip('[]').split(',')]))
+            i.specie(int(cs['specie']))
+            pop.append(i)
+            data_specie = {'id': aux_specie, 'b_key': 'True'}
+            server.setSpecieFree(data_specie)
+
+        #Tomar una especie aleatoria
+
+
+
+    print 'Especie: %d  --- Numero de individuos: %d'%(len(pop), config["set_specie"])
     cxpb                = config["cxpb"]
     mutpb               = config["mutpb"]
     ngen                = config["worker_generations"]

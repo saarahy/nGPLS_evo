@@ -14,7 +14,7 @@ import contSpecie
 
 def check_(server, r, free_species):
     free_species = []
-    for j in range(1, int(r) + 1):
+    for j in range(1, int(r)):
         free_species.append(eval(server.getSpecieFree(j)))
     if all(item2 is True for item2 in free_species):
         return False
@@ -24,7 +24,7 @@ def check_(server, r, free_species):
 
 def scheck_(server, r, p_flag, porcentage):
     flag_ = []
-    for j in range(1, int(r) + 1):
+    for j in range(1, int(r)):
         flag_.append(eval(server.getSpecieInfo(j)['flag_speciation']))
     if p_flag:
         p_ = porcentage/100.0
@@ -66,13 +66,14 @@ def counter(toolbox, pset):
             free_species = []  # List of free species
             flag_check = True
             rs_species = []  # List of species
-            for i in range(1, int(r) + 1):
+            for i in range(1, int(r)):
                 rs_species.append(int(server.getSpecieInfo(i)['specie']))
             d = './ReSpeciacion/%s/rspecie_%d.txt' % (config["problem"], config["n_problem"])
             ensure_dir(d)
             best = open(d, 'a')
             while flag_check:
                 flag_check = check_(server, r, free_species)
+                print ("waiting  - this worker will make speciation")
             if not flag_check:
                 print 'ReSpeciacion'
                 sp_init = datetime.datetime.now()
@@ -90,6 +91,7 @@ def counter(toolbox, pset):
                 print 'Flush population'
                 server.flushPopulation()
                 server.initialize()
+                print 'Initialize population'
                 neat_alg = config["neat_alg"]
                 if neat_alg:
                     a, b, init_pop = speciation_init(config, server, pop)

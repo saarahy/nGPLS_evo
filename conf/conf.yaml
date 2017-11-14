@@ -4,10 +4,10 @@ db_name: yacht_hydrodynamics.txt
 gen_matrix: true
 ls_flag: true
 ls_select: 8
-max_samples: 10
+max_samples: 15
 mutpb: 0.1
 n_corr: 1
-n_problem: 10012
+n_problem: 10019
 neat_alg: true
 neat_cx: false
 neat_h: 0.6
@@ -15,14 +15,14 @@ neat_pelit: 0.5
 num_salto: 1
 num_var: 6
 params: [best_of_each_specie, 2, 'yes']
-population_size: 100
-porcentage: 50
+population_size: 50
+porcentage: 10
 porcentage_flag: true
 problem: Yacht
 run_begin: 1
 run_end: 2
 save_matrix: true
 server: https://stormy-waters-38139.herokuapp.com/
-set_specie: 27
+set_specie: 10
 tournament_size: 7
 worker_generations: 15

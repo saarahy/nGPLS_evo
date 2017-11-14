@@ -460,6 +460,7 @@ def neat_GP_LS(population, toolbox, cxpb, mutpb, ngen, neat_alg, neat_cx, neat_h
 
         begin = time.time()
         print '---- Generation %d -----' % (gen)
+        print 'Especie: %d  --- Numero de individuos: %d' % (set_specie,len(population))
         print 'Problem: ', problem
         print 'Problem No.: ', num_p
         print 'Run No.: ', n_corr
