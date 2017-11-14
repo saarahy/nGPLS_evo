@@ -68,9 +68,19 @@ def counter(toolbox, pset):
             rs_species = []  # List of species
             for i in range(1, int(r)):
                 rs_species.append(int(server.getSpecieInfo(i)['specie']))
+
+            # Opening files to save data.
             d = './ReSpeciacion/%s/rspecie_%d.txt' % (config["problem"], config["n_problem"])
             ensure_dir(d)
             best = open(d, 'a')
+
+            d = './ReSpeciacion/%s/nspecie_%d.txt' % (config["problem"], config["n_problem"])
+            ensure_dir(d)
+            n_specie = open(d, 'a')
+            num_specie = server.get_CounterSpecie()
+            print "numero de especies creadas: ", num_specie
+            n_specie.write('\n%s' % (num_specie))
+
             while flag_check:
                 flag_check = check_(server, r, free_species)
                 print ("waiting  - this worker will make speciation")
