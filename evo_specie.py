@@ -77,9 +77,7 @@ def counter(toolbox, pset):
             d = './ReSpeciacion/%s/nspecie_%d.txt' % (config["problem"], config["n_problem"])
             ensure_dir(d)
             n_specie = open(d, 'a')
-            num_specie = server.get_CounterSpecie()
-            print "numero de especies creadas: ", num_specie
-            n_specie.write('\n%s' % (num_specie))
+
 
             while flag_check:
                 flag_check = check_(server, r, free_species)
@@ -112,9 +110,14 @@ def counter(toolbox, pset):
                         server.putSpecie(specielist)
                     server.putZample(init_pop)
                 server.setFreePopulation('True')
+
+                num_specie = server.get_CounterSpecie()
+                print "numero de especies creadas: ", num_specie
+                n_specie.write('\n%s' % (num_specie))
+
                 print 'ReSpeciacion- Done'
                 re_sp = 1
-                best.write('\n%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop)))
+                best.write('\n%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop), num_specie))
         server.setFreePopulation('True')
         server.setFreeFile('True')
         contSpecie.cont_specie = 0

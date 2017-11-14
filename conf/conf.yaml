@@ -7,10 +7,10 @@ ls_select: 8
 max_samples: 15
 mutpb: 0.1
 n_corr: 1
-n_problem: 10019
+n_problem: 10025
 neat_alg: true
 neat_cx: false
-neat_h: 0.6
+neat_h: 0.15
 neat_pelit: 0.5
 num_salto: 1
 num_var: 6
