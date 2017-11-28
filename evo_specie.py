@@ -41,8 +41,7 @@ def scheck_(server, r, p_flag, porcentage):
             return False
 
 
-def speciation_init(config, server, pop):
-    neat_h = 0.15
+def speciation_init(config, server, pop, neat_h):
     num_Specie, specie_list = neatGPLS.evo_species(pop, neat_h)
     sample = [{"chromosome": str(ind), "id": None, "fitness": {"DefaultContext": 0.0}, "params": None,  "specie":ind.get_specie()} for ind in pop]
     evospace_sample = {'sample_id': 'None', 'sample_specie': None, 'sample': sample}
@@ -58,9 +57,10 @@ def counter(toolbox, pset):
     free_file = eval(server.getFreeFile())
     print free_file, free_pop
     if free_pop and free_file:
-        print 'Free and Free'
         server.setFreeFile('False')
+        print 'Free and Free'
         r = server.get_CounterSpecie()
+        print r
         if scheck_(server, r, config["porcentage_flag"], config["porcentage"]):
             print "speciation-required"
             free_species = []  # List of free species
@@ -74,9 +74,13 @@ def counter(toolbox, pset):
             ensure_dir(d)
             best = open(d, 'a')
 
-            d = './ReSpeciacion/%s/nspecie_%d.txt' % (config["problem"], config["n_problem"])
+            d = './ReSpeciacion/%s/nspecie_%d.csv' % (config["problem"], config["n_problem"])
             ensure_dir(d)
             n_specie = open(d, 'a')
+
+            d = './General/%s/datapop_%d_%d.txt' % (config["problem"], config["n_problem"], config["set_specie"])
+            neatGPLS.ensure_dir(d)
+            datapop_ = open(d, 'a')
 
 
             while flag_check:
@@ -98,26 +102,29 @@ def counter(toolbox, pset):
                         pop.append(i)
                 print 'Flush population'
                 server.flushPopulation()
+                for ind in pop:
+                    datapop_.write('\n%s;%s;%s;%s' % (str(sp_init), ind, len(pop), ind.get_specie()))
                 server.initialize()
                 print 'Initialize population'
                 neat_alg = config["neat_alg"]
                 if neat_alg:
-                    a, b, init_pop = speciation_init(config, server, pop)
+                    a, b, init_pop = speciation_init(config, server, pop, config["neat_h"])
                     list_spe = calc_intracluster(pop)
                     for elem in list_spe:
                         specielist = {'id': None, 'specie': str(elem[0]), 'intra_distance': str(elem[1]),
                                       'flag_speciation': 'False', 'sp_event': 'True'}
                         server.putSpecie(specielist)
+                        n_specie.write('\n%s,%s' % (str(elem[0]), str(elem[1])))
                     server.putZample(init_pop)
                 server.setFreePopulation('True')
 
                 num_specie = server.get_CounterSpecie()
                 print "numero de especies creadas: ", num_specie
-                n_specie.write('\n%s' % (num_specie))
+
 
                 print 'ReSpeciacion- Done'
                 re_sp = 1
-                best.write('\n%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop), num_specie))
+                best.write('\n%s;%s;%s;%s' % (str(datetime.datetime.now()), str(sp_init), len(pop), num_specie))
         server.setFreePopulation('True')
         server.setFreeFile('True')
         contSpecie.cont_specie = 0

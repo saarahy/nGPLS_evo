@@ -212,7 +212,17 @@ def check_specie(server, especie):
             return []
     return evospace_sample
 
-def evolve(sample_num, config, toolbox, pset):
+def check_specie_aux(server, especie):
+    if eval(server.getSpecieFree(especie)):
+        data_specie = {'id': especie, 'b_key': 'False'}
+        server.setSpecieFree(data_specie)
+        evospace_sample = server.getSample_specie(especie)
+    else:
+        print 'choose another specie - aux'
+        return []
+    return evospace_sample
+
+def evolve(sample_num, config, toolbox, pset, evospace_sample):
 
     start = time.time()
     problem       = config["problem"]
@@ -225,11 +235,6 @@ def evolve(sample_num, config, toolbox, pset):
     server = jsonrpclib.Server(config["server"])
     # evospace_sample = server.getSample(config["population_size"])
 
-    print("check specie - 1")
-    evospace_sample = check_specie(server, config["set_specie"])
-    if evospace_sample == []:
-        while evospace_sample == []:
-            evospace_sample = check_specie(server, config["set_specie"])
 
     pop = []
     for cs in evospace_sample['sample']:
@@ -247,11 +252,11 @@ def evolve(sample_num, config, toolbox, pset):
         a = server.getSpecie()
         aux_specie=random.choice(a)
         print("check specie - 2 - %d" % aux_specie)
-        evospace_sample2 = check_specie(server, aux_specie)
+        evospace_sample2 = check_specie_aux(server, aux_specie)
         if evospace_sample2 == []:
             while evospace_sample2 == []:
                 aux_specie = random.choice(a)
-                evospace_sample2 = check_specie(server, aux_specie)
+                evospace_sample2 = check_specie_aux(server, aux_specie)
 
         for cs in evospace_sample2['sample']:
             i = creator.Individual(neat_gp.PrimitiveTree.from_string(cs['chromosome'], pset))
@@ -313,9 +318,6 @@ def evolve(sample_num, config, toolbox, pset):
         server.putSpecie(specielist)
         resp_flag = 1
 
-
-    #
-
     sample = [{"specie": str(config["set_specie"]), "chromosome":str(ind), "id":None,
                "fitness":{"DefaultContext":[ind.fitness.values[0].item() if isinstance(ind.fitness.values[0], np.float64) else ind.fitness.values[0]]},
                "params":str([x for x in ind.get_params()]) if funcEval.LS_flag else None} for ind in pop]
@@ -323,20 +325,18 @@ def evolve(sample_num, config, toolbox, pset):
     evospace_sample = {'sample_id': 'None', 'sample_specie': str(config["set_specie"]), 'sample': sample}
 
     server.putZample(evospace_sample)
-    data_specie = {'id': config["set_specie"], 'b_key': 'True'}
-    server.setSpecieFree(data_specie)
-    print 'Going to counter'
-    re_sp = evo_specie.counter(toolbox, pset)
-    print 'Ending to counter'
+
+
+
     d = './Data/%s/dintra_%d_%s.txt' % (problem, n_prob, config["set_specie"])
     neatGPLS.ensure_dir(d)
     dintr = open(d, 'a')
-    dintr.write('\n%s;%s;%s;%s' % (n_corr, d_intraspecie, resp_flag, re_sp))
+    dintr.write('\n%s;%s;%s;%s' % (n_corr, d_intraspecie, d_intracluster,resp_flag))
 
     best_ind = tools.selBest(pop, 1)[0]
     best = [len(best_ind), sample_num, round(time.time() - start, 2),
                                          round(begin - start, 2), round(putback - begin, 2),
-                                         round(time.time() - putback, 2), best_ind], len(pop), resp_flag, re_sp, funcEval_
+                                         round(time.time() - putback, 2), best_ind], len(pop), resp_flag, funcEval, d_intracluster
     return best
 
 
@@ -354,15 +354,31 @@ def work(params):
     time_r = open(d, 'a')
 
     for sample_num in range(1, config["max_samples"]+1):
-        print  'sample: ', sample_num
+        #  revisar si sigue existiendo o no la especie.
+
+        print("check specie - 1")
+        evospace_sample = check_specie(server, config["set_specie"])
+        if evospace_sample == []:
+            a = server.getSpecie()
+            while evospace_sample == []:
+                aux_specie = random.choice(a)
+                evospace_sample = check_specie(server, aux_specie)
+
 
         d_intracluster = server.getIntraSpecie(config["set_specie"])
         time_r.write('\n%s;%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, 'NA', 'NA','NA', funcEval.cont_evalp))
 
-        gen_data, len_pop, flag_, resp_, fEval_ = evolve(sample_num, config, toolbox, pset)
+        gen_data, len_pop, flag_,  fEval_, d_intracluster= evolve(sample_num, config, toolbox, pset, evospace_sample)
 
-        d_intracluster = server.getIntraSpecie(config["set_specie"])
-        time_r.write('\n%s;%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, resp_, fEval_))
+        time_r.write('\n%s;%s;%s;%s;%s;%s;%s' % (config["set_specie"], sample_num, str(datetime.datetime.now()), d_intracluster, len_pop, flag_, fEval_))
+
+        data_specie = {'id': config["set_specie"], 'b_key': 'True'}
+        server.setSpecieFree(data_specie)
+
+        # Inicia especiacion
+        print 'Going to counter'
+        re_sp = evo_specie.counter(toolbox, pset)
+        print 'Ending to counter'
 
         if gen_data == []:
             print 'No-Evolution'

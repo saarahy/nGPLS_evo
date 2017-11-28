@@ -19,6 +19,7 @@ problem = config["problem"]
 specie = 10
 
 
+
 d = './Timing/%s/time_%d.txt' % (problem, num_p)
 ensure_dir(d)
 best = open(d, 'a')
